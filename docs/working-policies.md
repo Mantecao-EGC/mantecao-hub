@@ -90,6 +90,7 @@ Cada **issue** debe contar con al menos las siguientes etiquetas:
   - `fix`: Para correciones de funcionalidades ya hechas
   - `hotfix`: Para correciones urgentes en la rama principal
   - `bug`: Para reportes de errores.
+  - `fix`: Para correciones de funcionalidades ya hechas
   - `documentation`: Para tareas de documentación.
 
 ### Asignación de responsables
