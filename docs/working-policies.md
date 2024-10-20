@@ -120,7 +120,7 @@ Donde se establecen los siguientes campos:
 ### GitFlow como Estrategia de Gestión de Ramas
 Este proyecto sigue la estrategia de ramificación **GitFlow**, que define un flujo de trabajo claro para el desarrollo de nuevas funcionalidades, corrección de bugs y despliegues de producción. El uso de GitFlow asegura que las ramas estén organizadas y que cada etapa del ciclo de desarrollo esté bien delimitada.
 
-![image](./images/FlowDiagram.png)
+![image](./images/FlowDiagram.jpg)
 
 ### Ramas Principales
 Las siguientes ramas serán permanentes y existirán a lo largo del proyecto:
