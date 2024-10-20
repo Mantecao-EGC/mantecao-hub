@@ -21,6 +21,8 @@
       - [Procedimiento para realizar Commits Atómicos](#procedimiento-para-realizar-commits-atómicos)
     - [Revisiones, fixes y pull request](#revisiones-fixes-y-pull-request)
     - [Hotfixes](#hotfixes)
+    - [Hotfixes](#hotfixes-1)
+  - [En el caso específico de que la rama principal presente errores urgentes se hará un "commit hotfix", estos han de inidicar claramente su issue referida usando "Refs:#Número-de-la-issue" en el mensaje, y describir los cambios y ser acompañados posteriormente por un segundo commit de revisión considerando que en el primero todo se encontraba en estado funcional y solventado donde se indique tanto la issue con "Refs:#Número-de-la-issue" como el reviewer con  el footer "Reviewed-by:"](#en-el-caso-específico-de-que-la-rama-principal-presente-errores-urgentes-se-hará-un-commit-hotfix-estos-han-de-inidicar-claramente-su-issue-referida-usando-refsnúmero-de-la-issue-en-el-mensaje-y-describir-los-cambios-y-ser-acompañados-posteriormente-por-un-segundo-commit-de-revisión-considerando-que-en-el-primero-todo-se-encontraba-en-estado-funcional-y-solventado-donde-se-indique-tanto-la-issue-con-refsnúmero-de-la-issue-como-el-reviewer-con--el-footer-reviewed-by)
   - [Política de gestión de issues](#política-de-gestión-de-issues)
     - [Etiquetado básico](#etiquetado-básico)
     - [Asignación de responsables](#asignación-de-responsables)
@@ -77,6 +79,8 @@ En el caso de las pull request se espera tanto el reviewer con "Reviewed-by:" co
 ### Hotfixes
 En el caso específico de que la rama principal presente errores urgentes se hará un "commit hotfix", estos han de inidicar claramente su issue referida usando "Refs:#Número-de-la-issue" en el mensaje, y describir los cambios y ser acompañados posteriormente por un segundo commit de revisión considerando que en el primero todo se encontraba en estado funcional y solventado donde se indique tanto la issue con "Refs:#Número-de-la-issue" como el reviewer con  el footer "Reviewed-by:"
 
+### Hotfixes
+En el caso específico de que la rama principal presente errores urgentes se hará un "commit hotfix", estos han de inidicar claramente su issue referida usando "Refs:#Número-de-la-issue" en el mensaje, y describir los cambios y ser acompañados posteriormente por un segundo commit de revisión considerando que en el primero todo se encontraba en estado funcional y solventado donde se indique tanto la issue con "Refs:#Número-de-la-issue" como el reviewer con  el footer "Reviewed-by:" 
 ---
 
 ## Política de gestión de issues
@@ -91,6 +95,8 @@ Cada **issue** debe contar con al menos las siguientes etiquetas:
   - `hotfix`: Para correciones urgentes en la rama principal
   - `bug`: Para reportes de errores.
   - `fix`: Para correciones de funcionalidades ya hechas
+  - `hotfix`: Para correciones urgentes en la rama principal
+  - `bug`: Para reportes de errores.
   - `documentation`: Para tareas de documentación.
 
 ### Asignación de responsables
