@@ -70,7 +70,8 @@ En el caso específico de las revisiones, siempre en el footer del commit hemos 
 En el caso de las pull request se espera tanto el reviewer con "Reviewed-by:" como una descripción clara de lo comprobado independientemente de que sea exitosa o no la revisión de la misma de cara a la aceptación de cambios.
 
 ### Hotfixes
-En el caso específico de que la rama principal presente errores urgentes se hará un "commit hotfix", estos han de inidicar claramente su issue referida usando "Refs:#Número-de-la-issue" en el mensaje, y describir los cambios y ser acompañados posteriormente por un segundo commit de revisión considerando que en el primero todo se encontraba en estado funcional y solventado donde se indique tanto la issue con "Refs:#Número-de-la-issue" como el reviewer con  el footer "Reviewed-by:" 
+En el caso específico de que la rama principal presente errores urgentes se hará un "commit hotfix", estos han de inidicar claramente su issue referida usando "Refs:#Número-de-la-issue" en el mensaje, y describir los cambios y ser acompañados posteriormente por un segundo commit de revisión considerando que en el primero todo se encontraba en estado funcional y solventado donde se indique tanto la issue con "Refs:#Número-de-la-issue" como el reviewer con  el footer "Reviewed-by:"
+
 ---
 
 ## Política de gestión de issues
