@@ -67,8 +67,10 @@ Un commit atómico es aquel que representa un único cambio o, en su defecto, co
 ### Revisiones, fixes y pull request
 En el caso específico de las revisiones, siempre en el footer del commit hemos de colocar nuestro nombre precedido por "Reviewed-by:", adicionalmente si se trata de un fix o similar es importante colocar en el footer "Refs:#Número-de-la-issue", considerando que dicho número ha de hacer referencia a la issue relacionada
 
-En el caso de las pull request se espera tanto el reviewer como una descripción clara de lo comprobado independientemente de que sea exitosa o no la revisión de la misma de cara a la aceptación de cambios.
+En el caso de las pull request se espera tanto el reviewer con "Reviewed-by:" como una descripción clara de lo comprobado independientemente de que sea exitosa o no la revisión de la misma de cara a la aceptación de cambios.
 
+### Hotfixes
+En el caso específico de que la rama principal presente errores urgentes se hará un "commit hotfix", estos han de inidicar claramente su issue referida usando "Refs:#Número-de-la-issue" en el mensaje, y describir los cambios y ser acompañados posteriormente por un segundo commit de revisión considerando que en el primero todo se encontraba en estado funcional y solventado donde se indique tanto la issue con "Refs:#Número-de-la-issue" como el reviewer con  el footer "Reviewed-by:" 
 ---
 
 ## Política de gestión de issues
@@ -78,10 +80,11 @@ Esta política define cómo gestionar las issues en el proyecto utilizando **Git
 Cada **issue** debe contar con al menos las siguientes etiquetas:
 - **Tipo de issue:**
   - `feature`: Para nuevas funcionalidades.
-  - `bug`: Para reportes de errores.
-  - `fix`: Para correciones de funcionalidades ya hechas
-  - `documentation`: Para tareas de documentación.
   - `enhancement`: Para mejoras a funcionalidades existentes.
+  - `fix`: Para correciones de funcionalidades ya hechas
+  - `hotfix`: Para correciones urgentes en la rama principal
+  - `bug`: Para reportes de errores.
+  - `documentation`: Para tareas de documentación.
 
 ### Asignación de responsables
 - **Cada issue** debe tener **dos personas asignadas**: Esto asegura revisión y cooperación en cada tarea.
@@ -117,12 +120,12 @@ Donde se establecen los siguientes campos:
 ### GitFlow como Estrategia de Gestión de Ramas
 Este proyecto sigue la estrategia de ramificación **GitFlow**, que define un flujo de trabajo claro para el desarrollo de nuevas funcionalidades, corrección de bugs y despliegues de producción. El uso de GitFlow asegura que las ramas estén organizadas y que cada etapa del ciclo de desarrollo esté bien delimitada.
 
+![image](./images/FlowDiagram.png)
+
 ### Ramas Principales
 Las siguientes ramas serán permanentes y existirán a lo largo del proyecto:
 - `main`: Contiene el código en estado **estable** que ha sido lanzado a producción.
 - `develop`: Ramas destinadas al **desarrollo** y contienen el código que está listo para ser probado antes de pasar a producción.
-
-![image](https://hackmd.io/_uploads/H1ArNmZlJl.png)
 
 ### Ramas de Soporte
 GitFlow utiliza ramas adicionales para gestionar características específicas, correcciones de errores y versiones. Las principales ramas de soporte son:
@@ -156,23 +159,6 @@ Donde:
 Si se está arreglado la funcionalidad relacionada con la issue #3, y es la primera rama de arreglo que se crea, la rama se llamaría:
 ```
 Fix-3-1/Fallo-de-inicio
-```
-
-- **Hotfix**: Para cambios urgentes del proyecto. Debe desarrollarse en una rama de característica (hotfix branch). El nombre de la rama debe seguir el siguiente formato:
-
-```
-Hotfix-N/Nombre-del-hotfix
-```
-
-Donde:
-- `N` es el número de la issue que corresponde a lo que se está arreglando en el sistema de seguimiento de GitHub.
-- `M` es el número de la issue asignada en el sistema de seguimiento de GitHub donde quedan registrado el arreglo.
-- `Nombre-del-hotfix` es una descripción breve pero clara del arreglo que se va a realizar.
-
-Si se está arreglado la funcionalidad relacionada con la issue #3, y es la primera rama de arreglo que se crea, la rama se llamaría:
-```
-Hotfix-3-1/Fallo-de-inicio
-
 ```
 
 - **Bug**: Para cambios no urgentes del proyecto. Debe desarrollarse en una rama de característica (bug branch). El nombre de la rama debe seguir el siguiente formato:
