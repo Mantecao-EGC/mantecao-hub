@@ -9,24 +9,25 @@
 
 ## Índice
 
-1. [Contribuyentes](##contribuyentes)
-2. [Introducción](##introducción)
-3. [ Política de gestión de commits](##política-de-gestión-de-commits)
-    3.1 [ Commits atómicos](##commits-atómicos)
-        3.1.1 [ Definición de Commit Atómico](###definición-de-commit-atómico)
-        3.1.2 [ Procedimiento para realizar Commits Atómicos](###procedimiento-para-realizar-commits-atómicos)
-4. [ Política de gestión de issues](##política-de-gestión-de-issues)
-    4.1 [ Etiquetado básico](###etiquetado-básico)
-    4.2 [ Asignación de responsables](###asignación-de-responsables)
-    4.3 [ Milestones](###milestones)
-    4.4 [ Asignación a proyectos y tableros](###asignación-a-proyectos-y-tableros)
-    4.5 [ Seguimiento y actualización](###seguimiento-y-actualización)
-    4.6 [ Cierre de issues](###cierre-de-issues)
-5. [ Política de gestión de ramas](##política-de-gestión-de-ramas)
-    5.1 [ GitFlow como Estrategia de Gestión de Ramas](###gitflow-como-estrategia-de-gestión-de-ramas)
-    5.2 [ Ramas principales](###ramas-principales)
-    5.3 [ Ramas de soporte](###ramas-de-soporte)
-6. [ Procedimiento en caso de no cumplimiento](##procedimiento-en-caso-de-no-cumplimiento)
+1. [Contribuyentes](#contribuyentes)
+2. [Introducción](#introducción)
+3. [Política de gestión de commits](#política-de-gestión-de-commits)
+   1. [Commits atómicos](#commits-atómicos)
+      1. [Definición de Commit Atómico](#definición-de-commit-atómico)
+      2. [Procedimiento para realizar Commits Atómicos](#procedimiento-para-realizar-commits-atómicos)
+   2. [Revisiones, fixes y pull request](#revisiones-fixes-y-pull-request)
+4. [Política de gestión de issues](#política-de-gestión-de-issues)
+   1. [Etiquetado básico](#etiquetado-básico)
+   2. [Asignación de responsables](#asignación-de-responsables)
+   3. [Milestones](#milestones)
+   4. [Asignación a proyectos y tableros](#asignación-a-proyectos-y-tableros)
+   5. [Seguimiento y actualización](#seguimiento-y-actualización)
+   6. [Cierre de issues](#cierre-de-issues)
+5. [Política de gestión de ramas](#política-de-gestión-de-ramas)
+   1. [GitFlow como Estrategia de Gestión de Ramas](#gitflow-como-estrategia-de-gestión-de-ramas)
+   2. [Ramas Principales](#ramas-principales)
+   3. [Ramas de Soporte](#ramas-de-soporte)
+6. [Procedimiento en caso de no cumplimiento](#procedimiento-en-caso-de-no-cumplimiento)
 
 ## Contribuyentes
 | Nombre del contribuyente |
@@ -64,9 +65,9 @@ Un commit atómico es aquel que representa un único cambio o, en su defecto, co
 - **Frecuencia de commits**: Se recomienda hacer commits frecuentemente para que los cambios puedan ser revisados y revertidos fácilmente, en lugar de acumular grandes cantidades de código en un solo commit.
 
 ### Revisiones, fixes y pull request
-En el caso específico de las revisiones, siempre en el footer del commit hemos de colocar nuestro nombre precedido por "Reviewed-by:", adicionalmente si se trata de un fix o similar es importante colocar en el footer "Refs:#Número-de-la-issue".
+En el caso específico de las revisiones, siempre en el footer del commit hemos de colocar nuestro nombre precedido por "Reviewed-by:", adicionalmente si se trata de un fix o similar es importante colocar en el footer "Refs:#Número-de-la-issue", considerando que dicho número ha de hacer referencia a la issue relacionada
 
-En el caso de las pull request se espera tanto el reviewer como una descripción clara de lo comprobado independientemente de que sea exitosa o no.
+En el caso de las pull request se espera tanto el reviewer como una descripción clara de lo comprobado independientemente de que sea exitosa o no la revisión de la misma de cara a la aceptación de cambios.
 
 ---
 
@@ -78,6 +79,7 @@ Cada **issue** debe contar con al menos las siguientes etiquetas:
 - **Tipo de issue:**
   - `feature`: Para nuevas funcionalidades.
   - `bug`: Para reportes de errores.
+  - `fix`: Para correciones de funcionalidades ya hechas
   - `documentation`: Para tareas de documentación.
   - `enhancement`: Para mejoras a funcionalidades existentes.
 
@@ -92,14 +94,14 @@ Cada **issue** debe contar con al menos las siguientes etiquetas:
 Para organizarlas existen **dos tableros**:
   - **Tablero de desarrollo**: Para gestionar el desarrollo general de las features y nuevas funcionalidades.
 Donde se establecen los siguientes campos:
-    - `Prioridad`: con valores {P0,P1,P2}, dónde P0 es la de mayor prioridad y P2 la de menos. Las prioridades deben ser claramente definidas para asegurar que las tareas críticas sean atendidas primero.
-    - `Tamaño`:con valores {XS,S,M,L,XL}. Indican el tamaño de la issue.
-    - `Estimación`: en horas totales a invertir.
-    - `Fecha inicio`: donde pasa a estar en progreso.
-    - `Fecha fin`: donde pasa a estar hecha.
+    - `Prioridad`: con valores {P0,P1,P2}, dónde P0 es la de mayor prioridad y P2 la de menos. Las prioridades deben ser claramente definidas para asegurar que las tareas críticas o bloqueantes sean atendidas primero.
+    - `Tamaño`: con valores {XS,S,M,L,XL}. Indican el tamaño de la issue, su alcance o en su defecto su envergadura.
+    - `Estimación`: en horas totales a invertir idealmente
+    - `Fecha inicio`: en que fecha pasa a estar en progreso.
+    - `Fecha fin`: en que fecha pasa a estar hecha.
   - **Tablero de bugs**: Exclusivo para la gestión y resolución de errores. Posee los mismos campos que el tablero de desarrollo.
   
-  Las issues deben ser asignados al **tablero correspondiente** según su tipo (feature o bug).
+  Las issues deben ser asignados al **tablero correspondiente** según su tipo (feature/documentation/enhacement o bug/fix).
 
 ### Seguimiento y actualización
 - Los responsables deben actualizar las **issues** de manera regular con comentarios y avances. 
@@ -124,7 +126,8 @@ Las siguientes ramas serán permanentes y existirán a lo largo del proyecto:
 
 ### Ramas de Soporte
 GitFlow utiliza ramas adicionales para gestionar características específicas, correcciones de errores y versiones. Las principales ramas de soporte son:
-- **Feature/Fix/Hotfix/Bug branches**: Para el desarrollo de nuevas funcionalidades. Cada nueva funcionalidad o tarea debe desarrollarse en una rama de característica (feature branch). El nombre de la rama debe seguir el siguiente formato:
+
+- **Feature**: Para el desarrollo de nuevas funcionalidades. Cada nueva funcionalidad o tarea debe desarrollarse en una rama de característica (feature branch). El nombre de la rama debe seguir el siguiente formato:
 
 ```
 Feat-N/Nombre-de-la-issue
@@ -139,8 +142,56 @@ Si se está desarrollando la funcionalidad relacionada con la issue #3 llamada "
 Feat-3/Diseñar-las-politicas-de-gestión
 ```
 
+- **Fix**: Para el cambio de funcionalidades ya hechas. Cada arreglo debe desarrollarse en una rama de característica (fix branch). El nombre de la rama debe seguir el siguiente formato:
+
+```
+Fix-N-M/Nombre-del-fix
+```
+
+Donde:
+- `N` es el número de la issue que corresponde a lo que se está arreglando en el sistema de seguimiento de GitHub.
+- `M` es el número de la issue asignada en el sistema de seguimiento de GitHub donde quedan registrado el arreglo.
+- `Nombre-del-fix` es una descripción breve pero clara del arreglo que se va a realizar.
+
+Si se está arreglado la funcionalidad relacionada con la issue #3, y es la primera rama de arreglo que se crea, la rama se llamaría:
+```
+Fix-3-1/Fallo-de-inicio
+```
+
+- **Hotfix**: Para cambios urgentes del proyecto. Debe desarrollarse en una rama de característica (hotfix branch). El nombre de la rama debe seguir el siguiente formato:
+
+```
+Hotfix-N/Nombre-del-hotfix
+```
+
+Donde:
+- `N` es el número de la issue que corresponde a lo que se está arreglando en el sistema de seguimiento de GitHub.
+- `M` es el número de la issue asignada en el sistema de seguimiento de GitHub donde quedan registrado el arreglo.
+- `Nombre-del-hotfix` es una descripción breve pero clara del arreglo que se va a realizar.
+
+Si se está arreglado la funcionalidad relacionada con la issue #3, y es la primera rama de arreglo que se crea, la rama se llamaría:
+```
+Hotfix-3-1/Fallo-de-inicio
+
+```
+
+- **Bug**: Para cambios no urgentes del proyecto. Debe desarrollarse en una rama de característica (bug branch). El nombre de la rama debe seguir el siguiente formato:
+
+```
+Bug-N/Nombre-del-bug
+```
+
+Donde:
+- `N` es el número de la issue asignada en el sistema de seguimiento de GitHub donde quedan registrado el arreglo.
+- `Nombre-del-bug` es una descripción breve pero clara del arreglo que se va a realizar.
+
+Si se está solventando el bug relacionado con la issue #3, la rama se llamaría:
+```
+Bug-3-1/Usuario-en-formato-desconocido
+
+```
 ---
 
 ## Procedimiento en caso de no cumplimiento
 
-El cumplimiento de estas políticas será monitoreado mediante revisiones de código (pull requests). Cada miembro del equipo debe adherirse a estas políticas. En caso de no cumplirlas se considerarán como errores y tendrán que ser solucionados en el menor tiempo posible, con una prioridad P2.
+El cumplimiento de estas políticas será monitoreado mediante revisiones de código (pull requests). Cada miembro del equipo debe adherirse a estas políticas. En caso de no cumplirlas se considerarán como errores y tendrán que ser solucionados en el menor tiempo posible, con una prioridad P0.
