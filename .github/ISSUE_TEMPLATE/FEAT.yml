@@ -1,0 +1,31 @@
+name: Feature
+description: Suggest a new feature.
+title: "[Feat]: "
+labels: ["enhacement"]
+projects: ["Mantecao-EGC/1"]
+body:
+  - type: input
+    id: description
+    attributes:
+      label: Descripción General
+      description: Describe de manera amplia y conceptual lo que se pretende añadir
+      placeholder: Se propone realizar los siguientes cambios...
+    validations:
+      required: true
+  - type: textarea
+    id: detalles
+    attributes:
+      label: Detalles
+      description: Ahora detalla de manera exacta que sería necesario para implmentar dicho cambio
+      placeholder: Crea una lista que siga el formato tal que sean "- [] Nombre_del_detalle"
+      value: "- [] Sub tarea 1"
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Política de Ítems
+      description: Creando este item te comprometes a seguir nuestra política indicada aquí[Code of Conduct](https://example.com). 
+      options:
+        - label: Esto de acuerdo con la política indicada
+          required: true
