@@ -31,6 +31,7 @@ class AuthenticationService(BaseService):
             password = kwargs.pop("password", None)
             name = kwargs.pop("name", None)
             surname = kwargs.pop("surname", None)
+            is_developer = kwargs.pop("is_developer", None)
 
             if not email:
                 raise ValueError("Email is required.")
@@ -43,7 +44,8 @@ class AuthenticationService(BaseService):
 
             user_data = {
                 "email": email,
-                "password": password
+                "password": password,
+                "is_developer": is_developer
             }
 
             profile_data = {
@@ -79,3 +81,4 @@ class AuthenticationService(BaseService):
 
     def temp_folder_by_user(self, user: User) -> str:
         return os.path.join(uploads_folder_name(), "temp", str(user.id))
+        
