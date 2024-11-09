@@ -1,3 +1,4 @@
+
 {% extends "base_template.html" %}
 
 {% block title %}Sign up{% endblock %}
@@ -65,6 +66,13 @@
                             {% for error in form.password.errors %}
                                 <span style="color: red;">{{ error }}</span>
                             {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-6 col-xs-12">
+                        <div class="mb-3">
+                            {{ form.is_developer(class="form-check-input") }}
+                            {{ form.is_developer.label(class="form-check-label") }}
                         </div>
                     </div>
 
