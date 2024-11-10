@@ -15,7 +15,7 @@ class AuthenticationService(BaseService):
         super().__init__(UserRepository())
         self.user_profile_repository = UserProfileRepository()
 
-    def login(self, email, password, remember=True):
+    def login(self, email, password, remember):
         user = self.repository.get_by_email(email)
         if user is not None and user.check_password(password):
             login_user(user, remember=remember)

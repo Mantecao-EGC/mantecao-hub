@@ -41,7 +41,7 @@ def login():
 
     form = LoginForm()
     if request.method == 'POST' and form.validate_on_submit():
-        if authentication_service.login(form.email.data, form.password.data):
+        if authentication_service.login(form.email.data, form.password.data, form.remember_me.data):
             return redirect(url_for('public.index'))
 
         return render_template("auth/login_form.html", form=form, error='Invalid credentials')
