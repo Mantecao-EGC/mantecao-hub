@@ -41,6 +41,8 @@ class AuthenticationService(BaseService):
                 raise ValueError("Name is required.")
             if not surname:
                 raise ValueError("Surname is required.")
+            if not is_developer:
+                raise ValueError("Is_developer is required.")
 
             user_data = {
                 "email": email,
