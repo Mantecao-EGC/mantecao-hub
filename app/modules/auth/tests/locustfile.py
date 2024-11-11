@@ -15,6 +15,7 @@ class SignupBehavior(TaskSet):
         response = self.client.post("/signup", data={
             "email": fake.email(),
             "password": fake.password(),
+            "is_developer": fake.is_developer(),
             "csrf_token": csrf_token
         })
         if response.status_code != 200:
