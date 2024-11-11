@@ -37,6 +37,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Migrate db
+      run: |
+        flask db migrate  
+        flask db upgrade
+      
     - name: Upload coverage to Codacy
       run: |
         pip install codacy-coverage
