@@ -4,12 +4,12 @@ from selenium.common.exceptions import NoSuchElementException
 import time
 
 from core.environment.host import get_host_for_selenium_testing
-from core.selenium.common import initialize_driver, close_driver
+from core.selenium.common import initialize_driver_firefox, close_driver
 
 
 def test_login_and_check_element():
 
-    driver = initialize_driver()
+    driver = initialize_driver_firefox()
 
     try:
         host = get_host_for_selenium_testing()
@@ -49,7 +49,7 @@ def test_login_and_check_element():
 
 def test_signup_developer_and_check_element():
 
-    driver = initialize_driver()
+    driver = initialize_driver_firefox()
 
     try:
         host = get_host_for_selenium_testing()
@@ -61,10 +61,14 @@ def test_signup_developer_and_check_element():
         time.sleep(4)
 
         # Find the username and password field and enter the values
+        name_field = driver.find_element(By.NAME, 'name')
+        surname_field = driver.find_element(By.NAME, 'surname')
         email_field = driver.find_element(By.NAME, 'email')
         password_field = driver.find_element(By.NAME, 'password')
-        is_developer_field = driver.find_element(By.NAME, 'Is this a Developer Account?')
+        is_developer_field = driver.find_element(By.NAME, 'is_developer')
 
+        name_field.send_keys('Footer')
+        surname_field.send_keys('Looter')
         email_field.send_keys('user3@example.com')
         password_field.send_keys('1234')
         is_developer_field.click()
@@ -86,10 +90,10 @@ def test_signup_developer_and_check_element():
             raise AssertionError('Test failed!')
 
     finally:
-
         # Close the browser
         close_driver(driver)
 
 
 # Call the test function
 test_login_and_check_element()
+test_signup_developer_and_check_element()
