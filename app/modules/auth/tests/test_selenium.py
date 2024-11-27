@@ -4,32 +4,16 @@ from selenium.common.exceptions import NoSuchElementException
 import time
 
 from core.environment.host import get_host_for_selenium_testing
-from core.selenium.common import initialize_driver, close_driver
+from core.selenium.common import initialize_driver_firefox, close_driver
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.firefox import GeckoDriverManager
-from selenium.webdriver.firefox.service import Service
-
-
-# Configurar Selenium para usar Firefox
-options = webdriver.FirefoxOptions()
-options.add_argument('--no-sandbox')
-options.add_argument('--disable-dev-shm-usage')
-
-# Quitar "--headless" si quieres ver el navegador en modo visible
-#options.add_argument("--headless")  # Puedes quitar esto para modo visible
-
-# Iniciar el driver de Firefox usando webdriver-manager
-service = Service(GeckoDriverManager().install())
 
 
 def test_login_and_check_element():
-
-    #driver = initialize_driver()
-    driver = webdriver.Firefox(service=service, options=options)
+    driver = initialize_driver_firefox()
     try:
         host = get_host_for_selenium_testing()
 
@@ -68,7 +52,7 @@ def test_login_and_check_element():
 
 def test_login_and_remember_me_true():
 
-    driver = webdriver.Firefox(service=service, options=options)
+    driver = initialize_driver_firefox()
 
     try:
         host = get_host_for_selenium_testing()
@@ -84,8 +68,8 @@ def test_login_and_remember_me_true():
         password_field = driver.find_element(By.NAME, 'password')
         password_field = driver.find_element(By.NAME, 'password')
         driver.find_element(By.NAME, "remember_me").click()
-        email_field.send_keys('prueba@gmail.com')
-        password_field.send_keys('prueba')
+        email_field.send_keys('user1@example.com')
+        password_field.send_keys('1234')
 
         # Send the form
         password_field.send_keys(Keys.RETURN)
@@ -112,7 +96,7 @@ def test_login_and_remember_me_true():
 
 def test_login_and_remember_me_false():
 
-    driver = webdriver.Firefox(service=service, options=options)
+    driver = initialize_driver_firefox()
 
     try:
         host = get_host_for_selenium_testing()
@@ -127,8 +111,8 @@ def test_login_and_remember_me_false():
         email_field = driver.find_element(By.NAME, 'email')
         password_field = driver.find_element(By.NAME, 'password')
         password_field = driver.find_element(By.NAME, 'password')
-        email_field.send_keys('prueba@gmail.com')
-        password_field.send_keys('prueba')
+        email_field.send_keys('user1@example.com')
+        password_field.send_keys('1234')
 
         # Send the form
         password_field.send_keys(Keys.RETURN)
@@ -151,6 +135,8 @@ def test_login_and_remember_me_false():
 
         # Close the browser
         close_driver(driver)
+
+
 # Call the test function
 
 
