@@ -292,5 +292,18 @@ def get_unsynchronized_dataset(dataset_id):
 
     if not dataset:
         abort(404)
-
-    return render_template("dataset/view_dataset.html", dataset=dataset)
+    count = dataset.get_files_count()
+    files = dataset.feature_models
+    page_num = request.args.get('page', 1, type=int)
+    per_page = 2
+    start_index = ((page_num-1) * per_page)
+    end_index = min(start_index+per_page, count)
+    if end_index > count:
+        end_index = count
+    pagination = Pagination(page=page_num, total=count, per_page=per_page,
+                            display_msg=f'Mostrando archivos {start_index} - {end_index} de un total de  {count}')
+    ls = []
+    for i in range(start_index, end_index):
+        ls.append(files[i])
+    return render_template("dataset/view_dataset.html", dataset=dataset, pagination=pagination,
+                                        files=ls)
