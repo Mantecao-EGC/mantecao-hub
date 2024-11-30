@@ -1,0 +1,49 @@
+name: Release CI
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          
+      - name: Determine version bump
+        id: bump
+        run: |
+          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+          if [[ $BRANCH_NAME == Feat-* ]]; then
+            echo "bump=major" >> $GITHUB_OUTPUT
+          elif [[ $BRANCH_NAME == Enhancement-* ]]; then
+            echo "bump=minor" >> $GITHUB_OUTPUT
+          elif [[ $BRANCH_NAME == Fix-* ]] || [[ $BRANCH_NAME == bug/* ]]; then
+            echo "bump=patch" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install -g semantic-release @semantic-release/git @semantic-release/github
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BUMP_LEVEL: ${{ steps.bump.outputs.bump }}
+        run: |
+          if [ ! -z "$BUMP_LEVEL" ]; then
+            npx semantic-release --preset angular --release-rules '[{"type":"*","release":"${{ steps.bump.outputs.bump }}"}]'
+          fi
