@@ -106,7 +106,6 @@ def test_login_and_remember_me_false():
         # Find the username and password field and enter the values
         email_field = driver.find_element(By.NAME, 'email')
         password_field = driver.find_element(By.NAME, 'password')
-        password_field = driver.find_element(By.NAME, 'password')
         email_field.send_keys('user1@example.com')
         password_field.send_keys('1234')
 
