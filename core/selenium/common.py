@@ -1,5 +1,5 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service as SC
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.firefox.service import Service as SF
 from webdriver_manager.firefox import GeckoDriverManager
@@ -10,7 +10,7 @@ def initialize_driver():
     options = webdriver.ChromeOptions()
 
     # Initialise the browser using WebDriver Manager
-    service = Service(ChromeDriverManager().install())
+    service = SC(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
     return driver
 

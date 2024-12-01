@@ -114,6 +114,10 @@
 
         <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
 
+            {% if current_user.is_developer %}
+                    <h2> <b>You are in Developer Mode</b> </h2>
+            {% endif %}
+
             <div class="row">
 
                 <div class="col-12">

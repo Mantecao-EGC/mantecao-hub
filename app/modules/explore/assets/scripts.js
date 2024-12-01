@@ -2,6 +2,24 @@ document.addEventListener('DOMContentLoaded', () => {
     send_query();
 });
 
+let tagsPopulated = false;
+
+function populateTagsSelect(data) {
+    if (tagsPopulated) return;
+
+    const tagsSelect = document.getElementById('tags_select');
+    const allTags = new Set();
+    data.forEach(dataset => dataset.tags.forEach(tag => allTags.add(tag)));
+
+    tagsSelect.innerHTML = '';
+    Array.from(allTags).forEach(tag => {
+        const option = new Option(tag, tag);
+        tagsSelect.appendChild(option);
+    });
+
+    tagsPopulated = true;
+}
+
 function send_query() {
 
     console.log("send query...")
@@ -38,8 +56,40 @@ function send_query() {
                     console.log(data);
                     document.getElementById('results').innerHTML = '';
 
+                    populateTagsSelect(data);
+
+                    // size limit
+                    const sizeLimit = parseInt(document.querySelector('#size_limit').value) * 1024 * 1024;
+                    let filteredData = data.filter(dataset => dataset.total_size_in_bytes <= sizeLimit);
+
+                    // model count filtering
+                    const modelCount = parseInt(document.querySelector('#model_count').value);
+                    filteredData = filteredData.filter(dataset => dataset.files_count >= modelCount);
+
+                    // tags filtering
+                    const tagsSelect = document.getElementById('tags_select');
+                    const selectedTagsList = Array.from(tagsSelect.selectedOptions).map(opt => opt.value);
+                    if (selectedTagsList.length > 0) {
+                        filteredData = filteredData.filter(dataset =>
+                            selectedTagsList.every(tag => dataset.tags.includes(tag))
+                        );
+                    }
+
+                    // size-based sorting
+                    const sortingValue = document.querySelector('[name="sorting"]:checked').value;
+                    switch (sortingValue) {
+                        case "smaller":
+                            filteredData.sort((a, b) => a.total_size_in_bytes - b.total_size_in_bytes);
+                            break;
+                        case "bigger":
+                            filteredData.sort((a, b) => b.total_size_in_bytes - a.total_size_in_bytes);
+                            break;
+                        default:
+                            break;
+                    }
+
                     // results counter
-                    const resultCount = data.length;
+                    const resultCount = filteredData.length;
                     const resultText = resultCount === 1 ? 'dataset' : 'datasets';
                     document.getElementById('results_number').textContent = `${resultCount} ${resultText} found`;
 
@@ -51,7 +101,7 @@ function send_query() {
                     }
 
 
-                    data.forEach(dataset => {
+                    filteredData.forEach(dataset => {
                         let card = document.createElement('div');
                         card.className = 'col-12';
                         card.innerHTML = `
@@ -135,7 +185,7 @@ function send_query() {
 }
 
 function formatDate(dateString) {
-    const options = {day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric'};
+    const options = { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric' };
     const date = new Date(dateString);
     return date.toLocaleString('en-US', options);
 }
@@ -143,7 +193,7 @@ function formatDate(dateString) {
 function set_tag_as_query(tagName) {
     const queryInput = document.getElementById('query');
     queryInput.value = tagName.trim();
-    queryInput.dispatchEvent(new Event('input', {bubbles: true}));
+    queryInput.dispatchEvent(new Event('input', { bubbles: true }));
 }
 
 function set_publication_type_as_query(publicationType) {
@@ -155,7 +205,7 @@ function set_publication_type_as_query(publicationType) {
             break;
         }
     }
-    publicationTypeSelect.dispatchEvent(new Event('input', {bubbles: true}));
+    publicationTypeSelect.dispatchEvent(new Event('input', { bubbles: true }));
 }
 
 document.getElementById('clear-filters').addEventListener('click', clearFilters);
@@ -179,8 +229,19 @@ function clearFilters() {
         // option.dispatchEvent(new Event('input', {bubbles: true}));
     });
 
+    // Reset the size limit
+    document.getElementById('size_limit').value = 10000;
+    document.getElementById('size_limit_value').textContent = '10.000';
+
+    // Reset the model count
+    document.getElementById('model_count').value = 0;
+
+    // Reset tags select
+    let tagsSelect = document.querySelector('#tags_select');
+    Array.from(tagsSelect.options).forEach(option => option.selected = false);
+
     // Perform a new search with the reset filters
-    queryInput.dispatchEvent(new Event('input', {bubbles: true}));
+    queryInput.dispatchEvent(new Event('input', { bubbles: true }));
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -195,11 +256,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const queryInput = document.getElementById('query');
         queryInput.value = queryParam
-        queryInput.dispatchEvent(new Event('input', {bubbles: true}));
+        queryInput.dispatchEvent(new Event('input', { bubbles: true }));
         console.log("throw event");
 
     } else {
         const queryInput = document.getElementById('query');
-        queryInput.dispatchEvent(new Event('input', {bubbles: true}));
+        queryInput.dispatchEvent(new Event('input', { bubbles: true }));
     }
+});
+
+// Update size limit display
+document.getElementById('size_limit').addEventListener('input', function () {
+    document.getElementById('size_limit_value').textContent =
+        Number(this.value).toLocaleString();
 });
