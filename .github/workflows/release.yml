@@ -21,8 +21,9 @@ jobs:
           
       - name: Determine version bump
         id: bump
+        env:
+          BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
         run: |
-          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
           if [[ $BRANCH_NAME == Feat-* ]]; then
             echo "bump=major" >> $GITHUB_OUTPUT
           elif [[ $BRANCH_NAME == Enhancement-* ]]; then
