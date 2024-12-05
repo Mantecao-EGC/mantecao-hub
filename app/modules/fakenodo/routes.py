@@ -6,6 +6,7 @@ from flask import jsonify, request, send_file
 from . import fakenodo_bp
 
 datasets = {}
+dataset_counter = 0
 
 
 # Upload all files from dataset
@@ -33,7 +34,7 @@ def upload_dataset():
 def get_Dataset(dataset_id):
     dataset = datasets.get(dataset_id)
     if dataset:
-        return send_file(dataset['file_path'], as_attachment=True, attachment_filename=dataset['filename'])
+        return send_file(dataset['file_path'], as_attachment=True, download_name=dataset['filename'])
     return jsonify({'error': 'Dataset not found'}), 404
 
 

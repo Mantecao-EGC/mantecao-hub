@@ -60,7 +60,7 @@ class FakenodoService(BaseService):
         }
 
         try:
-            deposition = self.deposition_repository.create_new_deposition(dep_metadata=metadataJSON)
+            deposition = self.deposition_repository.create_new_deposition(metadata=metadataJSON)
 
             return {
                 "id": deposition.id,
@@ -168,7 +168,7 @@ def checksum(fileName):
     try:
         with open(fileName, "rb") as file:
             file_content = file.read()
-            res = hashlib.md5(file_content).hexdigest()
+            res = hashlib.sha256(file_content).hexdigest()
         return res
     except FileNotFoundError:
         raise Exception(f"File {fileName} not found for checksum calculation")
