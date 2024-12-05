@@ -1,5 +1,6 @@
 var currentId = 0;
 var amount_authors = 0;
+/* global use_fakenodo */
 
 function show_upload_dataset() {
     document.getElementById("upload_dataset").style.display = "block";
