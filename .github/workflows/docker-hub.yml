@@ -27,5 +27,19 @@ jobs:
           docker build -f docker/images/Dockerfile.prod -t ${{ secrets.DOCKER_USER }}/mantecao-hub:latest .
           docker push ${{ secrets.DOCKER_USER }}/mantecao-hub:latest
 
+      - name: Create .env file
+        run: |
+          echo "FLASK_APP_NAME=${{ secrets.FLASK_APP_NAME }}" > .env
+          echo "FLASK_ENV=${{ secrets.FLASK_ENV }}" >> .env
+          echo "DOMAIN=${{ secrets.DOMAIN }}" >> .env
+          echo "MARIADB_HOSTNAME=${{ secrets.MARIADB_HOSTNAME }}" >> .env
+          echo "MARIADB_PORT=${{ secrets.MARIADB_PORT }}" >> .env
+          echo "MARIADB_DATABASE=${{ secrets.MARIADB_DATABASE }}" >> .env
+          echo "MARIADB_USER=${{ secrets.MARIADB_USER }}" >> .env
+          echo "MARIADB_PASSWORD=${{ secrets.MARIADB_PASSWORD }}" >> .env
+          echo "MARIADB_ROOT_PASSWORD=${{ secrets.MARIADB_ROOT_PASSWORD }}" >> .env
+          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+          echo "WORKING_DIR=${{ secrets.WORKING_DIR }}" >> .env
+
       - name: Set up and deploy containers
         run: docker compose -f docker/docker-compose.prod.yml up -d
