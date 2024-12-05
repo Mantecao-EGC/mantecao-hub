@@ -24,8 +24,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -f docker/images/Dockerfile.prod -t mantecao-EGC/mantecao-hub:latest .
-          docker push mantecao-EGC/mantecao-hub:latest
+          docker build -f docker/images/Dockerfile.prod -t ${{ secrets.DOCKER_USER }}/mantecao-hub:latest .
+          docker push ${{ secrets.DOCKER_USER }}/mantecao-hub:latest
 
       - name: Set up and deploy containers
         run: docker compose -f docker/docker-compose.prod.yml up -d
