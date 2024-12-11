@@ -1,4 +1,4 @@
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify  # type: ignore
 
 from app.modules.explore import explore_bp
 from app.modules.explore.forms import ExploreForm
