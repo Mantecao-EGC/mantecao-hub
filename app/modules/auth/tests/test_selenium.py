@@ -7,7 +7,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 
 from core.environment.host import get_host_for_selenium_testing
-from core.selenium.common import initialize_driver_firefox, close_driver
+from core.selenium.common import close_driver, initialize_driver_firefox
 
 
 def test_login_and_check_element():
