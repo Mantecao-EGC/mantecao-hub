@@ -39,6 +39,8 @@ function send_query() {
                 query: document.querySelector('#query').value,
                 publication_type: document.querySelector('#publication_type').value,
                 sorting: document.querySelector('[name="sorting"]:checked').value,
+                config_number: document.querySelector('#config_number').value,
+                core_features: document.querySelector('#core_features').value
             };
 
             console.log(document.querySelector('#publication_type').value);
@@ -57,7 +59,7 @@ function send_query() {
                     document.getElementById('results').innerHTML = '';
 
                     populateTagsSelect(data);
-
+                    
                     // size limit
                     const sizeLimit = parseInt(document.querySelector('#size_limit').value) * 1024 * 1024;
                     let filteredData = data.filter(dataset => dataset.total_size_in_bytes <= sizeLimit);
