@@ -1,29 +1,30 @@
 name: Release CI
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
       - main
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   release:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    if: github.event.head_commit.message startsWith('Merge')
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          
+
       - name: Determine version bump
         id: bump
-        env:
-          BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
         run: |
+          # Extract the source branch name from merge commit message
+          BRANCH_NAME=$(git log -1 --pretty=%s | sed -n 's/Merge pull request #[0-9]* from \(.*\)/\1/p')
+          echo "Detected branch: $BRANCH_NAME"
+          
+          # Determine the version bump based on the branch name
           if [[ $BRANCH_NAME == Feat-* ]]; then
             echo "bump=major" >> $GITHUB_OUTPUT
           elif [[ $BRANCH_NAME == Enhancement-* ]]; then
