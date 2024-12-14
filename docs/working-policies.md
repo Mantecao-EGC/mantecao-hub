@@ -304,6 +304,21 @@ Si se está desarrollando la funcionalidad relacionada con la issue #3 llamada "
 Feat-3/Diseñar-las-politicas-de-gestión
 ```
 
+- **Enhancement**: Para la mejoría de partes del sistema ya existentes (adición de tests, optimización de scripts...). Cada nueva mejoría debe desarrollarse en una rama de característica (enhancement branch). El nombre de la rama debe seguir el siguiente formato:
+
+```
+Enhancement-N/Nombre-de-la-issue
+```
+
+Donde:
+- `N` es el número de la issue asignada en el sistema de seguimiento de GitHub.
+- `Nombre-de-la-issue` es una descripción breve pero clara de la funcionalidad que se va a desarrollar.
+
+Si se está desarrollando la mejoría relacionada con la issue #3 llamada "Crear test para buscador", la rama se llamaría:
+```
+Enhancement-3/Crear-test-para-buscador
+```
+
 - **Fix**: Para el cambio de funcionalidades ya hechas. Cada arreglo debe desarrollarse en una rama de característica (fix branch). El nombre de la rama debe seguir el siguiente formato:
 
 ```
