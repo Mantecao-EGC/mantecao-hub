@@ -1,7 +1,3 @@
-# EGC - mantecao-hub
-
-# Metodología de Trabajo
-
 ## Historial de versiones
 | Nombre de la versión | Cambios |
 |-------------------------|-------------------------|
