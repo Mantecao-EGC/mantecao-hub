@@ -30,7 +30,6 @@
     - [GitFlow como Estrategia de Gestión de Ramas](#gitflow-como-estrategia-de-gestión-de-ramas)
     - [Ramas Principales](#ramas-principales)
     - [Ramas de Soporte](#ramas-de-soporte)
-  - [Procedimiento en caso de no cumplimiento](#procedimiento-en-caso-de-no-cumplimiento)
 
 ## Contribuyentes
 | Nombre del contribuyente |
