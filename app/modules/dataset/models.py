@@ -1,10 +1,13 @@
 from datetime import datetime
 from enum import Enum
 
-from flask import request
-from sqlalchemy import Enum as SQLAlchemyEnum
+from flask import request  # type: ignore
+from sqlalchemy import Enum as SQLAlchemyEnum  # type: ignore
+from flamapy.core.discover import DiscoverMetamodels  # type: ignore
 
 from app import db
+
+dm = DiscoverMetamodels()
 
 
 class PublicationType(Enum):
@@ -83,6 +86,24 @@ class DataSet(db.Model):
 
     def files(self):
         return [file for fm in self.feature_models for file in fm.files]
+
+    def highest_number_of_configurations(self) -> int:
+        res = 0
+        files = [file for fm in self.feature_models for file in fm.files]
+        for f in files:
+            result = dm.use_operation_from_file("PySATConfigurationsNumber", f.get_path())
+            if result > res:
+                res = result
+        return res
+
+    def number_of_core_features(self) -> int:
+        res = 0
+        files = [file for fm in self.feature_models for file in fm.files]
+        for f in files:
+            result = dm.use_operation_from_file("PySATCoreFeatures", f.get_path())
+            if len(result) > res:
+                res = len(result)
+        return res
 
     def delete(self):
         db.session.delete(self)

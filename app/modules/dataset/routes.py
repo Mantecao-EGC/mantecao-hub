@@ -1,6 +1,6 @@
+import json
 import logging
 import os
-import json
 import shutil
 import tempfile
 import uuid
@@ -9,32 +9,21 @@ from zipfile import ZipFile
 from flask_paginate import Pagination
 
 
-from flask import (
-    redirect,
-    render_template,
-    request,
-    jsonify,
-    send_from_directory,
-    make_response,
-    abort,
-    url_for,
-)
-from flask_login import login_required, current_user
+from flask import (abort, jsonify, make_response, redirect, render_template,
+                   request, send_from_directory, url_for)
+from flask_login import current_user, login_required
 
-from app.modules.dataset.forms import DataSetForm
-from app.modules.dataset.models import (
-    DSDownloadRecord
-)
 from app.modules.dataset import dataset_bp
-from app.modules.dataset.services import (
-    AuthorService,
-    DSDownloadRecordService,
-    DSMetaDataService,
-    DSViewRecordService,
-    DataSetService,
-    DOIMappingService
-)
+from app.modules.dataset.forms import DataSetForm
+from app.modules.dataset.models import DSDownloadRecord
+from app.modules.dataset.services import (AuthorService, DataSetService,
+                                          DOIMappingService,
+                                          DSDownloadRecordService,
+                                          DSMetaDataService,
+                                          DSViewRecordService)
+from app.modules.fakenodo.services import FakenodoService
 from app.modules.zenodo.services import ZenodoService
+from core.configuration.configuration import USE_FAKENODO
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +31,7 @@ logger = logging.getLogger(__name__)
 dataset_service = DataSetService()
 author_service = AuthorService()
 dsmetadata_service = DSMetaDataService()
-zenodo_service = ZenodoService()
+nodo_service = FakenodoService() if USE_FAKENODO else ZenodoService()
 doi_mapping_service = DOIMappingService()
 ds_view_record_service = DSViewRecordService()
 
@@ -67,36 +56,37 @@ def create_dataset():
             logger.exception(f"Exception while create dataset data in local {exc}")
             return jsonify({"Exception while create dataset data in local: ": str(exc)}), 400
 
-        # send dataset as deposition to Zenodo
+        # send dataset as deposition to Zenodo/Fakenodo
         data = {}
+        nodo = "Fakenodo" if USE_FAKENODO else "Zenodo"
         try:
-            zenodo_response_json = zenodo_service.create_new_deposition(dataset)
-            response_data = json.dumps(zenodo_response_json)
+            nodo_response_json = nodo_service.create_new_deposition(dataset)
+            response_data = json.dumps(nodo_response_json)
             data = json.loads(response_data)
         except Exception as exc:
             data = {}
-            zenodo_response_json = {}
-            logger.exception(f"Exception while create dataset data in Zenodo {exc}")
+            nodo_response_json = {}
+            logger.exception(f"Exception while create dataset data in {nodo} {exc}")
 
         if data.get("conceptrecid"):
             deposition_id = data.get("id")
 
-            # update dataset with deposition id in Zenodo
+            # update dataset with deposition id in Zenodo/Fakenodo
             dataset_service.update_dsmetadata(dataset.ds_meta_data_id, deposition_id=deposition_id)
 
             try:
-                # iterate for each feature model (one feature model = one request to Zenodo)
+                # iterate for each feature model (one feature model = one request to Zenodo/Fakenodo)
                 for feature_model in dataset.feature_models:
-                    zenodo_service.upload_file(dataset, deposition_id, feature_model)
+                    nodo_service.upload_file(dataset, deposition_id, feature_model)
 
                 # publish deposition
-                zenodo_service.publish_deposition(deposition_id)
+                nodo_service.publish_deposition(deposition_id)
 
                 # update DOI
-                deposition_doi = zenodo_service.get_doi(deposition_id)
+                deposition_doi = nodo_service.get_doi(deposition_id)
                 dataset_service.update_dsmetadata(dataset.ds_meta_data_id, dataset_doi=deposition_doi)
             except Exception as e:
-                msg = f"it has not been possible upload feature models in Zenodo and update the DOI: {e}"
+                msg = f"it has not been possible upload feature models in {nodo} and update the DOI: {e}"
                 return jsonify({"message": msg}), 200
 
         # Delete temp folder
@@ -107,7 +97,7 @@ def create_dataset():
         msg = "Everything works!"
         return jsonify({"message": msg}), 200
 
-    return render_template("dataset/upload_dataset.html", form=form)
+    return render_template("dataset/upload_dataset.html", form=form, use_fakenodo=USE_FAKENODO)
 
 
 @dataset_bp.route("/dataset/list", methods=["GET", "POST"])

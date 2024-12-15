@@ -235,13 +235,34 @@
 
             <div class="list-group-item">
 
-                <div class="row">
-                    <div class="col-12 d-flex justify-content-between align-items-center">
-                        <h4 style="margin-bottom: 0px">UVL models</h4>
-                        <h4 style="margin-bottom: 0px;"><span class="badge bg-dark">{{ dataset.get_files_count() }}</span></h4>
-                        
-                    </div>
-                    <input type="text" placeholder="Search by name..">
+        {% if dataset.ds_meta_data.dataset_doi %}
+        <div class="d-flex align-items-center gap-2 my-3">
+            <i data-feather="link" class="text-black"></i>
+            <a class="mb-0 fw-semibold">{{ dataset.get_uvlhub_doi() }}</a>
+        </div>
+        {% endif %}
+
+        <div class="d-flex flex-column gap-2">
+
+            <div class="d-flex align-items-center gap-2">
+                <i data-feather="user"></i>
+                <a href="{{ url_for('public.view_user_profile', user_id=dataset.user.id) }}">{{ dataset.user.profile.surname }}, {{ dataset.user.profile.name }}</a>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+                <i data-feather="users"></i>
+                <div>
+                    {% for author in dataset.ds_meta_data.authors %}
+                    <p class="p-0 m-0">
+                        {{ author.name }}
+                        {% if author.affiliation %}
+                        ({{ author.affiliation }})
+                        {% endif %}
+                        {% if author.orcid %}
+                        ({{ author.orcid }})
+                        {% endif %}
+                    </p>
+                    {% endfor %}
                 </div>
                 
 
