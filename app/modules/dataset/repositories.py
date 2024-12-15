@@ -114,6 +114,9 @@ class DataSetRepository(BaseRepository):
             .all()
         )
 
+    def filter_by(self, **kwargs):
+        return self.model.query.filter_by(**kwargs)
+
 
 class DOIMappingRepository(BaseRepository):
     def __init__(self):
