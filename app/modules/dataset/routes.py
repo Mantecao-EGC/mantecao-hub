@@ -64,7 +64,7 @@ def create_dataset():
             fakenodo_response_json = {}
             logger.exception(f"Exception while create dataset data in {nodo} {exc}")
 
-        if data.get("conceptrecid"):
+        if "id" in data:
             deposition_id = data.get("id")
 
             # update dataset with deposition id in Fakenodo
