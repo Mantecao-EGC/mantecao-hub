@@ -7,6 +7,7 @@ import uuid
 from datetime import datetime, timezone
 from zipfile import ZipFile
 from flask_paginate import Pagination
+from flamapy.core.discover import DiscoverMetamodels  # type: ignore
 
 
 from flask import (abort, jsonify, make_response, redirect, render_template,
@@ -252,7 +253,12 @@ def subdomain_index(doi):
     dataset = ds_meta_data.data_set
 
     count = dataset.get_files_count()
-    files = dataset.feature_models
+    files = [file for fm in dataset.feature_models for file in fm.files]
+    
+    config_number = request.args.get('config_number', default=0, type=int)
+    core_features = request.args.get('core_features', default=0, type=int)
+    
+    DataSetService.filterFiles(files, config_number, core_features)
     page_num = request.args.get('page', 1, type=int)
     per_page = 2
     start_index = ((page_num-1) * per_page)
@@ -262,8 +268,9 @@ def subdomain_index(doi):
     pagination = Pagination(page=page_num, total=count, per_page=per_page,
                             display_msg=f'Mostrando archivos {start_index} - {end_index} de un total de  {count}')
     ls = []
-    for i in range(start_index, end_index):
-        ls.append(files[i])
+    if len(files) > per_page:
+        for i in range(start_index, end_index):
+            ls.append(files[i])
     # Save the cookie to the user's browser
     user_cookie = ds_view_record_service.create_cookie(dataset=dataset)
     resp = make_response(render_template("dataset/view_dataset.html", dataset=dataset, pagination=pagination,
