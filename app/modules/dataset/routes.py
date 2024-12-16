@@ -56,12 +56,12 @@ def create_dataset():
         data = {}
         nodo = "Fakenodo"
         try:
-            nodo_response_json = fakenodo_service.create_new_deposition(dataset)
-            response_data = json.dumps(nodo_response_json)
+            fakenodo_response_json = fakenodo_service.create_new_deposition(dataset)
+            response_data = json.dumps(fakenodo_response_json)
             data = json.loads(response_data)
         except Exception as exc:
             data = {}
-            nodo_response_json = {}
+            fakenodo_response_json = {}
             logger.exception(f"Exception while create dataset data in {nodo} {exc}")
 
         if data.get("conceptrecid"):
