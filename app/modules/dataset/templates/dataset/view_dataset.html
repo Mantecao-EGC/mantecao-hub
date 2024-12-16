@@ -48,7 +48,7 @@
                     </div>
                     <div>
                     <label for="core_features">Number of features:</label>
-                    <input type="core_features" id="core_features" name="core_features" value="0" required>
+                    <input type="number" id="core_features" name="core_features" value="0" required>
                     </div>
 
                     <button type="submit" class="btn btn-primary rounded-3">Filtrar</button>
@@ -60,7 +60,7 @@
                     <div class="d-flex align-items-center gap-2">
                         <h4 class="mb-0">UVL models</h4>
                         <h4 class="mb-0">
-                            <span class="badge bg-dark">{{ dataset.get_files_count()}}</span>
+                            <span class="badge bg-dark">{{ count }}</span>
                         </h4>
                     </div>
                     <div>

@@ -71,17 +71,18 @@ class DataSetRepository(BaseRepository):
         super().__init__(DataSet)
         
     def filterFiles(files, config_number=0, core_features=0, **kwargs):
-        # Normalize and remove unwanted characters
+        not_valid=[]
         if config_number != 0:
             for f in files:
                 if int(dm.use_operation_from_file("PySATConfigurationsNumber", f.get_path())) < int(config_number):
-                    files.remove(f)
-
+                    not_valid.append(f)
         if core_features != 0:
             for f in files:
-                if int(dm.use_operation_from_file("PySATCoreFeatures", f.get_path())) < int(config_number):
-                    files.remove(f)
-
+                if len(dm.use_operation_from_file("PySATCoreFeatures", f.get_path())) < int(core_features):
+                    not_valid.append(f)
+        for value in not_valid:
+            if value in files:
+                files.remove(value)
         return files
 
     def get_synchronized(self, current_user_id: int) -> DataSet:

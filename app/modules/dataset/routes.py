@@ -8,7 +8,8 @@ from datetime import datetime, timezone
 from zipfile import ZipFile
 from flask_paginate import Pagination
 from flamapy.core.discover import DiscoverMetamodels  # type: ignore
-
+from flamapy.core.discover import DiscoverMetamodels  # type: ignore
+dm = DiscoverMetamodels()
 
 from flask import (abort, jsonify, make_response, redirect, render_template,
                    request, send_from_directory, url_for)
@@ -253,10 +254,8 @@ def subdomain_index(doi):
     dataset = ds_meta_data.data_set
 
     files = [file for fm in dataset.feature_models for file in fm.files]
-    
     config_number = request.args.get('config_number', default=0, type=int)
     core_features = request.args.get('core_features', default=0, type=int)
-    
     DataSetService.filterFiles(files, config_number, core_features)
     count = len(files)
     page_num = request.args.get('page', 1, type=int)
@@ -268,13 +267,15 @@ def subdomain_index(doi):
     pagination = Pagination(page=page_num, total=count, per_page=per_page,
                             display_msg=f'Mostrando archivos {start_index} - {end_index} de un total de  {count}')
     ls = []
-    if len(files) > per_page:
+    if len(files) >= per_page:
         for i in range(start_index, end_index):
             ls.append(files[i])
+    else:
+        ls=files
     # Save the cookie to the user's browser
     user_cookie = ds_view_record_service.create_cookie(dataset=dataset)
     resp = make_response(render_template("dataset/view_dataset.html", dataset=dataset, pagination=pagination,
-                                         files=ls))
+                                         files=ls, count = count))
     resp.set_cookie("view_cookie", user_cookie)
 
     return resp
@@ -305,8 +306,10 @@ def get_unsynchronized_dataset(dataset_id):
     pagination = Pagination(page=page_num, total=count, per_page=per_page,
                             display_msg=f'Mostrando archivos {start_index} - {end_index} de un total de  {count}')
     ls = []
-    if len(files) > per_page:
+    if len(files) >= per_page:
         for i in range(start_index, end_index):
             ls.append(files[i])
+    else:
+        ls=files
     return render_template("dataset/view_dataset.html", dataset=dataset, pagination=pagination,
-                                        files=ls)
+                                        files=ls, count = count)
