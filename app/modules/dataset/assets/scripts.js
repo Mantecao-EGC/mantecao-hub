@@ -1,6 +1,5 @@
 var currentId = 0;
 var amount_authors = 0;
-/* global use_fakenodo */
 
 function show_upload_dataset() {
     document.getElementById("upload_dataset").style.display = "block";
@@ -130,12 +129,6 @@ function write_upload_error(error_message) {
 }
 
 window.onload = function () {
-
-    if (use_fakenodo) {
-        document.getElementById("use_fakenodo").style.display = "block";
-    } else {
-        test_zenodo_connection();
-    }
 
     document.getElementById('upload_button').addEventListener('click', function () {
 

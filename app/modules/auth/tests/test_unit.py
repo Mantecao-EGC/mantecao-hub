@@ -59,6 +59,7 @@ def test_signup_unsuccessful_user_no_name(test_client):
     assert b"This field is required" in response.data, response.data
 
 
+
 def test_signup_unsuccessful_user_no_surname(test_client):
     response = test_client.post(
         "/signup", data=dict(name="Foo", email="test@example.com", password="test1234",
