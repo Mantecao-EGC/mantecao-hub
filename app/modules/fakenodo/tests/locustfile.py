@@ -1,17 +1,29 @@
 from locust import HttpUser, TaskSet, task
 from core.environment.host import get_host_for_locust_testing
+from core.locust.common import get_csrf_token
 
 
 class FakenodoBehavior(TaskSet):
     def on_start(self):
-        self.index()
+        self.login()
 
-    @task
+    def login(self):
+        response = self.client.get("/login")
+        csrf_token = get_csrf_token(response)
+
+        self.client.post("/login", data={
+            "email": "user1@example.com",
+            "password": "1234",
+            "csrf_token": csrf_token
+        })
+
+    @task(1)
     def index(self):
-        response = self.client.get("/fakenodo")
+        self.client.get("/dataset/upload")
 
-        if response.status_code != 200:
-            print(f"Fakenodo index failed: {response.status_code}")
+    @task(2)
+    def view_datasets(self):
+        self.client.get("/dataset/list")
 
 
 class FakenodoUser(HttpUser):
