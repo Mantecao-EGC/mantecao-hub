@@ -1,29 +1,21 @@
-# EGC - mantecao-hub
-
-# Metodología de Trabajo
-
 ## Historial de versiones
 | Nombre de la versión | Cambios |
 |-------------------------|-------------------------|
 | v1.0 | Documento inicial |
+| v1.1 | Revisión para el M3 |
 
 ## Índice
-
-- [EGC - mantecao-hub](#egc---mantecao-hub)
-- [Metodología de Trabajo](#metodología-de-trabajo)
-  - [Historial de versiones](#historial-de-versiones)
-  - [Índice](#índice)
   - [Contribuyentes](#contribuyentes)
   - [Introducción](#introducción)
+  - [Acta Fundacional](#acta-fundacional)
   - [Política de gestión de commits](#política-de-gestión-de-commits)
     - [Commits atómicos](#commits-atómicos)
       - [Definición de Commit Atómico](#definición-de-commit-atómico)
       - [Procedimiento para realizar Commits Atómicos](#procedimiento-para-realizar-commits-atómicos)
     - [Revisiones, fixes y pull request](#revisiones-fixes-y-pull-request)
     - [Hotfixes](#hotfixes)
-    - [Hotfixes](#hotfixes-1)
-  - [En el caso específico de que la rama principal presente errores urgentes se hará un "commit hotfix", estos han de inidicar claramente su issue referida usando "Refs:#Número-de-la-issue" en el mensaje, y describir los cambios y ser acompañados posteriormente por un segundo commit de revisión considerando que en el primero todo se encontraba en estado funcional y solventado donde se indique tanto la issue con "Refs:#Número-de-la-issue" como el reviewer con  el footer "Reviewed-by:"](#en-el-caso-específico-de-que-la-rama-principal-presente-errores-urgentes-se-hará-un-commit-hotfix-estos-han-de-inidicar-claramente-su-issue-referida-usando-refsnúmero-de-la-issue-en-el-mensaje-y-describir-los-cambios-y-ser-acompañados-posteriormente-por-un-segundo-commit-de-revisión-considerando-que-en-el-primero-todo-se-encontraba-en-estado-funcional-y-solventado-donde-se-indique-tanto-la-issue-con-refsnúmero-de-la-issue-como-el-reviewer-con--el-footer-reviewed-by)
   - [Política de gestión de issues](#política-de-gestión-de-issues)
+    - [Titulos y descripciones](#titulos-y-descripciones)
     - [Etiquetado básico](#etiquetado-básico)
     - [Asignación de responsables](#asignación-de-responsables)
     - [Milestones](#milestones)
@@ -34,7 +26,6 @@
     - [GitFlow como Estrategia de Gestión de Ramas](#gitflow-como-estrategia-de-gestión-de-ramas)
     - [Ramas Principales](#ramas-principales)
     - [Ramas de Soporte](#ramas-de-soporte)
-  - [Procedimiento en caso de no cumplimiento](#procedimiento-en-caso-de-no-cumplimiento)
 
 ## Contribuyentes
 | Nombre del contribuyente |
@@ -48,12 +39,38 @@
 
 ## Introducción
 
-A continuación se presenta el documento de las políticas del trabajo en el proyecto, en el cual se va a especificar y explicar los procedimientos que se han de seguir en el proyecto a la hora de trabajar de forma ideal.
+A continuación se presenta el documento de las políticas del trabajo en el proyecto, en el cual se va a especificar y explicar los procedimientos que se han de seguir en el proyecto a la hora de trabajar de forma ideal, este a su vez funciona como acta fundacional al incluirla
+
+## Acta fundacional
+
+Reunidos:
+
+Los arriba contribuyentes, integrantes del equipo de trabajo, acuerdan formalizar el presente **Acta Fundacional** que regirá el funcionamiento y conducta del grupo durante el desarrollo del proyecto.
+
+### **Acuerdos del grupo:**
+
+1. **Responsabilidad y cumplimiento**: Cada miembro se compromete a cumplir con las tareas asignadas y los plazos establecidos, asegurando que se entregue el trabajo con la calidad esperada.
+2. **Comunicación efectiva**: Se mantendrá una comunicación abierta, respetuosa y directa entre los miembros. Las decisiones importantes se tomarán por consenso y se deberán documentar en un acta de reunión cuando sea necesario.
+3. *Participación activa**: Todos los miembros deberán participar activamente en las reuniones, aportando ideas, soluciones y retroalimentación para mejorar el trabajo en equipo.
+4. **Resolución de conflictos**: Ante la aparición de un conflicto, se buscará una solución interna mediante diálogo entre las partes afectadas. Si el conflicto se considera grave o no se resuelve internamente, se acudirá al coordinador de proyectos de la asignatura.
+5. **Revisión del acta**: El presente acta podrá ser revisada y modificada únicamente por acuerdo unánime de todos los miembros, de manera excepcional.
+
+
+### **Sanciones por incumplimiento:**
+1. **Retrasos en la entrega de tareas**: La primera falta será advertida verbalmente. Si se repite, se asignará una tarea adicional o se deberá compensar de acuerdo a la decisión del grupo.
+2. **Falta de participación o asistencia**: Se hará un llamado de atención y, en caso de reincidencia, se informará al coordinador de proyectos para que intervenga de acuerdo con las normativas de la asignatura.
+3. **Conducta irrespetuosa**: En caso de conductas inapropiadas o irrespetuosas hacia otros miembros, se abordará el problema en reunión de equipo. Si persiste, se solicitará la intervención del coordinador de proyectos.
+4. **Incumplimiento de los acuerdos**: La reincidencia en el incumplimiento de las responsabilidades acordadas será motivo de una advertencia formal por parte del grupo y, en última instancia, la notificación al coordinador de proyectos para evaluar posibles consecuencias.
+
+### **Tipos de conflictos frecuentes:**
+- **Diferencias de opinión en la toma de decisiones**: Se buscará consenso mediante el diálogo. En caso de no llegar a un acuerdo, se someterá a votación y se respetará la mayoría.
+- **Distribución desigual del trabajo**: Se revisarán las responsabilidades asignadas y se reestructurará la carga de trabajo en función de las habilidades y tiempo disponible de cada miembro.
+- **Incumplimiento de plazos o calidad**: Se plantearán medidas correctivas para cumplir con los objetivos y se tomarán acciones disciplinarias de acuerdo a las sanciones descritas anteriormente.
+
 
 ## Política de gestión de commits
 
 Como política de gestión de commits emplearemos como base la metodología de **Conventional Commits** especificada en el siguiente documento: [**Conventional Commits** en español](https://www.conventionalcommits.org/es/v1.0.0/). 
-
 Además, hemos decidido extender nuestras políticas para facilitar aún más la gestión del proyecto. Los añadidos se especifican a continuación.
 
 ### Commits atómicos
@@ -79,12 +96,139 @@ En el caso de las pull request se espera tanto el reviewer con "Reviewed-by:" co
 ### Hotfixes
 En el caso específico de que la rama principal presente errores urgentes se hará un "commit hotfix", estos han de inidicar claramente su issue referida usando "Refs:#Número-de-la-issue" en el mensaje, y describir los cambios y ser acompañados posteriormente por un segundo commit de revisión considerando que en el primero todo se encontraba en estado funcional y solventado donde se indique tanto la issue con "Refs:#Número-de-la-issue" como el reviewer con  el footer "Reviewed-by:"
 
-### Hotfixes
-En el caso específico de que la rama principal presente errores urgentes se hará un "commit hotfix", estos han de inidicar claramente su issue referida usando "Refs:#Número-de-la-issue" en el mensaje, y describir los cambios y ser acompañados posteriormente por un segundo commit de revisión considerando que en el primero todo se encontraba en estado funcional y solventado donde se indique tanto la issue con "Refs:#Número-de-la-issue" como el reviewer con  el footer "Reviewed-by:" 
 ---
 
 ## Política de gestión de issues
 Esta política define cómo gestionar las issues en el proyecto utilizando **GitHub**. El objetivo es organizar, priorizar y dar seguimiento eficiente a cada tarea dentro del ciclo de desarrollo.
+
+### Titulos y descripciones
+Cada **issue** debe contar con el siguiente formato dependiendo de su **categoría**, se ha de recalcar que ningún campo opcional ah de venir provisto de formato de mediante "#":
+#### Features
+  - Título: ⭐️ feat: <"nombre de la feat">
+  - Descripción: Se crearán al menos 3 apartados:
+    - Descripción General (obligatorio): Se ha de indicar un breve descripción de lo que trata
+    - Detalles (Obligatorio): Se realiza una descripción más exacta de la feature
+        - Listado de módulos (opcional):Se han de listar los módulos de la apliación que se han de alterar como una lista de cuadrículas
+    - Orientación (opcional): Si se puede incluir una orientación breve de como arreglar la issue
+    - Política de Ítems (Obligatorio): Se incluirá una casilla que verifique que la issue cumple con la política
+
+Aquí se aporta un ejemplo:
+
+---
+
+### ⭐️ feat: fakenodo
+### Descripción General
+
+Hacer un mock de la API de Zenodo
+
+### Detalles
+
+Esta tarea esta enfocada principalmente al entorno de desarrollo, de manera que se pueda trabajar como desarrollador con Fakenodo y con Zenodo en producción. De esta forma, aseguramos que se pueda probar correctamente la integración con Zenodo.
+
+No se especifican los módulos que se deben de tocar, pero principalmente necesitarían modificación aquellos módulos que hagan uso de la API de Zenodo.
+
+### Política de Ítems
+
+- [ ] Esto de acuerdo con la política indicada
+
+---
+
+#### Enhancements
+  - Título: ✨ enhancement <"nombre del enhancement">
+  - Descripción: Se crearán al menos 3 apartados:
+    - Descripción General (obligatorio): Se ha de indicar un breve descripción de lo que trata
+    - Detalles (Obligatorio): Se realiza una descripción más exacta del enhacement
+        - Listado de módulos (opcional):Se han de listar los módulos de la apliación que se han de alterar como una lista de cuadrículas
+    - Orientación (opcional): Si se puede incluir una orientación breve de como arreglar la issue
+    - Política de Ítems (Obligatorio): Se incluirá una casilla que verifique que la issue cumple con la política
+
+Aquí se aporta un ejemplo:
+
+---
+
+### Título: ✨ enhancement: testing fakenodo
+### Descripción General
+
+Llevar a cabo los tests de Fakenodo
+
+### Detalles
+
+Se tienen que realizar un número suficiente de tests de manera que se cubran la mayoría de las casuísticas de Fakenodo. Hay que tener en cuenta que los tests de interfaz se refieren a las páginas donde se utilice la API de Fakenodo/Zenodo y comprobar que la API haga las operaciones correctas.
+- [ ] Tests unitarios
+- [ ] Tests de carga con Locust
+- [ ] Tests de interfaz con Selenium
+
+### Política de Ítems
+
+- [ ] Esto de acuerdo con la política indicada
+
+---
+
+#### Fixes
+  - Título: 🔧 fix <"nombre del fix">
+  - Descripción: Se crearán al menos 3 apartados:
+    - Descripción General (obligatorio): Se ha de indicar un breve descripción de lo que trata
+    - Detalles (Obligatorio): Se realiza una descripción más exacta del fix
+        - Error encontrado (Obligatorio): Expresar el error y su método de reproducción si aplica
+        - Listado de módulos (opcional):Se han de listar los módulos de la apliación que se han de alterar como una lista de cuadrículas
+        - Orientación (opcional): Si se puede incluir una orientación breve de como arreglar la issue
+    - Política de Ítems (Obligatorio): Se incluirá una casilla que verifique que la issue cumple con la política
+
+Aquí se aporta un ejemplo:
+
+---
+
+### Título: 🔧 fix: arreglar el workflow
+### Descripción General
+Necesario ajuste del workflow de release
+
+### Detalles
+#### Error encontrado
+Es necesario ajustar el workflow de las releases para que haga una release en cada push a main, ya que no se pueden hacer releases a partir de Pull Requests como se indica en la imagen de abajo. Se puede aprovechar el hecho de que no hace releases en Pull Requests para las pruebas.
+
+![imagen](https://github.com/user-attachments/assets/bccfcb7d-c103-46ac-bbd4-1c9b3bd55f8d)
+
+Como no se puede hacer por PRs, revisar alguna forma de que detecte de cual rama proviene para realizar la release en función del nombre de la rama, como esta configurado ahora.
+
+Si se trata de algo complejo y no da tiempo a terminarlo en este milestone, cerrar la issue como no terminada y eliminar el workflow de la release.
+
+### Política de Ítems
+
+- [ ] Esto de acuerdo con la política indicada
+
+---
+
+#### Bugs
+  - Título: 🐞 bug <"nombre del bug">
+  - Descripción: Se crearán al menos 3 apartados:
+    - Descripción General (obligatorio): Se ha de indicar un breve descripción de lo que trata
+    - Detalles (Obligatorio): Se realiza una descripción más exacta del bug
+        - Error encontrado (Obligatorio): Expresar el error y su método de reproducción si aplica
+        - Listado de módulos (opcional):Se han de listar los módulos de la apliación que se han de alterar como una lista de cuadrículas
+        - Orientación (opcional): Si se puede incluir una orientación breve de como arreglar la issue
+    - Política de Ítems (Obligatorio): Se incluirá una casilla que verifique que la issue cumple con la política
+
+Aquí se aporta un ejemplo:
+
+---
+
+### Título: 🐞 bug: error en test
+### Descripción General
+La ejecución de los tests de selenium del modulo auth no funcionan correctamente
+
+### Detalles
+#### Error encontrado
+Al realizar el comando rosemary selenium test me encuentro con un error en los drivers del proyecto que me impide su correcto funcionamiento "Añado la imagen"
+El resultado no deberái de dar errores en la ejecución
+
+Posiblemente sea un problema de la instalación de Firefox, pero actualmente no tengo herramientas para solventarlo
+
+### Política de Ítems
+
+- [ ] Esto de acuerdo con la política indicada
+
+---
+
 
 ### Etiquetado básico
 Cada **issue** debe contar con al menos las siguientes etiquetas:
@@ -133,12 +277,9 @@ Donde se establecen los siguientes campos:
 ### GitFlow como Estrategia de Gestión de Ramas
 Este proyecto sigue la estrategia de ramificación **GitFlow**, que define un flujo de trabajo claro para el desarrollo de nuevas funcionalidades, corrección de bugs y despliegues de producción. El uso de GitFlow asegura que las ramas estén organizadas y que cada etapa del ciclo de desarrollo esté bien delimitada.
 
-![image](./images/FlowDiagram.jpg)
-
-### Ramas Principales
+### Rama Principal
 Las siguientes ramas serán permanentes y existirán a lo largo del proyecto:
 - `main`: Contiene el código en estado **estable** que ha sido lanzado a producción.
-- `develop`: Ramas destinadas al **desarrollo** y contienen el código que está listo para ser probado antes de pasar a producción.
 
 ### Ramas de Soporte
 GitFlow utiliza ramas adicionales para gestionar características específicas, correcciones de errores y versiones. Las principales ramas de soporte son:
@@ -156,6 +297,21 @@ Donde:
 Si se está desarrollando la funcionalidad relacionada con la issue #3 llamada "Diseñar las políticas de gestión", la rama se llamaría:
 ```
 Feat-3/Diseñar-las-politicas-de-gestión
+```
+
+- **Enhancement**: Para la mejoría de partes del sistema ya existentes (adición de tests, optimización de scripts...). Cada nueva mejoría debe desarrollarse en una rama de característica (enhancement branch). El nombre de la rama debe seguir el siguiente formato:
+
+```
+Enhancement-N/Nombre-de-la-issue
+```
+
+Donde:
+- `N` es el número de la issue asignada en el sistema de seguimiento de GitHub.
+- `Nombre-de-la-issue` es una descripción breve pero clara de la funcionalidad que se va a desarrollar.
+
+Si se está desarrollando la mejoría relacionada con la issue #3 llamada "Crear test para buscador", la rama se llamaría:
+```
+Enhancement-3/Crear-test-para-buscador
 ```
 
 - **Fix**: Para el cambio de funcionalidades ya hechas. Cada arreglo debe desarrollarse en una rama de característica (fix branch). El nombre de la rama debe seguir el siguiente formato:
@@ -189,8 +345,3 @@ Si se está solventando el bug relacionado con la issue #3, la rama se llamaría
 Bug-3-1/Usuario-en-formato-desconocido
 
 ```
----
-
-## Procedimiento en caso de no cumplimiento
-
-El cumplimiento de estas políticas será monitoreado mediante revisiones de código (pull requests). Cada miembro del equipo debe adherirse a estas políticas. En caso de no cumplirlas se considerarán como errores y tendrán que ser solucionados en el menor tiempo posible, con una prioridad P0.
