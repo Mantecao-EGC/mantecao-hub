@@ -14,6 +14,8 @@ from app.modules.dataset.models import (
     DataSet
 )
 from core.repositories.BaseRepository import BaseRepository
+from flamapy.core.discover import DiscoverMetamodels  # type: ignore
+dm = DiscoverMetamodels()
 
 logger = logging.getLogger(__name__)
 
@@ -67,6 +69,21 @@ class DSViewRecordRepository(BaseRepository):
 class DataSetRepository(BaseRepository):
     def __init__(self):
         super().__init__(DataSet)
+        
+    def filterFiles(files, config_number=0, core_features=0, **kwargs):
+        not_valid = []
+        if config_number != 0:
+            for f in files:
+                if int(dm.use_operation_from_file("PySATConfigurationsNumber", f.get_path())) < int(config_number):
+                    not_valid.append(f)
+        if core_features != 0:
+            for f in files:
+                if len(dm.use_operation_from_file("PySATCoreFeatures", f.get_path())) < int(core_features):
+                    not_valid.append(f)
+        for value in not_valid:
+            if value in files:
+                files.remove(value)
+        return files
 
     def get_synchronized(self, current_user_id: int) -> DataSet:
         return (

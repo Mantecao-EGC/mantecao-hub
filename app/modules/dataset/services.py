@@ -49,6 +49,15 @@ class DataSetService(BaseService):
         self.dsviewrecord_repostory = DSViewRecordRepository()
         self.hubfileviewrecord_repository = HubfileViewRecordRepository()
 
+    def filterFiles(files, config_number=0, core_features=0, **kwargs):
+
+        if config_number == '' or int(config_number) < 0:
+            config_number = 0
+        if core_features == '' or int(core_features) < 0:
+            core_features = 0
+
+        return DataSetRepository.filterFiles(files,config_number, core_features, **kwargs)
+    
     def move_feature_models(self, dataset: DataSet):
         current_user = AuthenticationService().get_authenticated_user()
         source_dir = current_user.temp_folder()
