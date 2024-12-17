@@ -271,11 +271,11 @@ def subdomain_index(doi):
         for i in range(start_index, end_index):
             ls.append(files[i])
     else:
-        ls=files
+        ls = files
     # Save the cookie to the user's browser
     user_cookie = ds_view_record_service.create_cookie(dataset=dataset)
     resp = make_response(render_template("dataset/view_dataset.html", dataset=dataset, pagination=pagination,
-                                         files=ls, count = count))
+                                         files=ls, count=count))
     resp.set_cookie("view_cookie", user_cookie)
 
     return resp
@@ -291,10 +291,8 @@ def get_unsynchronized_dataset(dataset_id):
     if not dataset:
         abort(404)
     files = [file for fm in dataset.feature_models for file in fm.files]
-    
     config_number = request.args.get('config_number', default=0, type=int)
     core_features = request.args.get('core_features', default=0, type=int)
-    
     DataSetService.filterFiles(files, config_number, core_features)
     count = len(files)
     page_num = request.args.get('page', 1, type=int)
@@ -310,6 +308,6 @@ def get_unsynchronized_dataset(dataset_id):
         for i in range(start_index, end_index):
             ls.append(files[i])
     else:
-        ls=files
+        ls = files
     return render_template("dataset/view_dataset.html", dataset=dataset, pagination=pagination,
                                         files=ls, count = count)
