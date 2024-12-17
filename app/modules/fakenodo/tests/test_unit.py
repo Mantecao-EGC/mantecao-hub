@@ -13,7 +13,7 @@ def test_client(test_client):
     with test_client.application.app_context():
         # Add a sample deposition to the database for testing
         sample_deposition = Deposition(
-            dep_metadata={"title": "Sample Dataset", "description": "Sample Description"},
+            meta_data={"title": "Sample Dataset", "description": "Sample Description"},
             status="draft",
             doi=None
         )
@@ -31,9 +31,10 @@ def test_create_new_deposition():
         authors=[],
         tags=""
     )
+    dataset = DataSet(ds_meta_data=ds_meta_data)
     with patch('app.modules.fakenodo.repositories.DepositionRepo.create_new_deposition') as mock_create_new_deposition:
         mock_create_new_deposition.return_value = MagicMock(id=1)
-        response = service.create_new_deposition(ds_meta_data)
+        response = service.create_new_deposition(dataset)
         assert response['id'] == 1
         assert response['message'] == "Deposition succesfully created in Fakenodo"
 
@@ -47,9 +48,10 @@ def test_create_new_deposition_with_authors():
         authors=[MagicMock(name="Author1", affiliation="Affiliation1", orcid="0000-0000-0000-0000")],
         tags=""
     )
+    dataset = DataSet(ds_meta_data=ds_meta_data)
     with patch('app.modules.fakenodo.repositories.DepositionRepo.create_new_deposition') as mock_create_new_deposition:
         mock_create_new_deposition.return_value = MagicMock(id=1)
-        response = service.create_new_deposition(ds_meta_data)
+        response = service.create_new_deposition(dataset)
         assert response['id'] == 1
         assert response['message'] == "Deposition succesfully created in Fakenodo"
 
@@ -86,7 +88,7 @@ def test_publish_deposition(test_client):
 def test_get_deposition(test_client):
     service = FakenodoService()
     with patch('app.modules.fakenodo.models.Deposition.query.get') as mock_query_get:
-        mock_deposition = MagicMock(id=1, doi="fakenodo.doi.1", dep_metadata={}, status="draft")
+        mock_deposition = MagicMock(id=1, doi="fakenodo.doi.1", meta_data={}, status="draft")
         mock_query_get.return_value = mock_deposition
         response = service.get_deposition(1)
         assert response['id'] == 1
