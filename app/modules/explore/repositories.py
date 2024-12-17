@@ -1,6 +1,6 @@
 import re
-from sqlalchemy import any_, or_
-import unidecode
+from sqlalchemy import any_, or_  # type: ignore
+import unidecode  # type: ignore
 from app.modules.dataset.models import Author, DSMetaData, DataSet, PublicationType
 from app.modules.featuremodel.models import FMMetaData, FeatureModel
 from core.repositories.BaseRepository import BaseRepository
@@ -10,7 +10,8 @@ class ExploreRepository(BaseRepository):
     def __init__(self):
         super().__init__(DataSet)
 
-    def filter(self, query="", sorting="newest", publication_type="any", tags=[], **kwargs):
+    def filter(self, query="", sorting="newest", publication_type="any", tags=[],
+               config_number=0, core_features=0, **kwargs):
         # Normalize and remove unwanted characters
         normalized_query = unidecode.unidecode(query).lower()
         cleaned_query = re.sub(r'[,.":\'()\[\]^;!¡¿?]', "", normalized_query)
@@ -51,6 +52,16 @@ class ExploreRepository(BaseRepository):
 
         if tags:
             datasets = datasets.filter(DSMetaData.tags.ilike(any_(f"%{tag}%" for tag in tags)))
+
+        if config_number != 0:
+            for d in datasets.all():
+                if DataSet.highest_number_of_configurations(d) < int(config_number):
+                    datasets = datasets.filter(self.model.id != d.id)
+
+        if core_features != 0:
+            for d in datasets.all():
+                if DataSet.number_of_core_features(d) < int(core_features):
+                    datasets = datasets.filter(self.model.id != d.id)
 
         # Order by created_at
         if sorting == "oldest":

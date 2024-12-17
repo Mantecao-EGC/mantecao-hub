@@ -6,7 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 
 from core.environment.host import get_host_for_selenium_testing
-from core.selenium.common import initialize_driver, close_driver
+from core.selenium.common import initialize_driver, close_driver, initialize_driver_firefox
 
 
 def wait_for_page_to_load(driver, timeout=4):
@@ -131,5 +131,26 @@ def test_upload_dataset():
         close_driver(driver)
 
 
+def test_pagination():
+    driver = initialize_driver_firefox()
+
+    try:
+        host = get_host_for_selenium_testing()
+        driver.get(f'{host}/')
+        # Open the login page
+        wait_for_page_to_load(driver)
+        driver.find_element(By.LINK_TEXT, "Sample dataset 4").click()
+        driver.find_element(By.LINK_TEXT, "2").click()
+        driver.find_element(By.XPATH, "//div[contains(@class, 'col-8')" + " and contains(., 'file12.uvl')]")
+
+        print("Test passed!")
+
+    finally:
+
+        # Close the browser
+        close_driver(driver)
+
+
 # Call the test function
 test_upload_dataset()
+test_pagination()

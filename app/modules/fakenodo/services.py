@@ -5,7 +5,7 @@ import os
 from dotenv import load_dotenv
 from flask_login import current_user
 
-from app.modules.dataset.models import DataSet, DSMetaData
+from app.modules.dataset.models import DataSet
 from app.modules.fakenodo.models import Deposition
 from app.modules.fakenodo.repositories import DepositionRepo
 from app.modules.featuremodel.models import FeatureModel
@@ -21,7 +21,7 @@ class FakenodoService(BaseService):
     def __init__(self):
         self.deposition_repository = DepositionRepo()
 
-    def create_new_deposition(self, ds_meta_data: DSMetaData) -> dict:
+    def create_new_deposition(self, dataset: DataSet) -> dict:
         """
         Create a new deposition in Fakenodo
 
@@ -33,8 +33,8 @@ class FakenodoService(BaseService):
         """
 
         logger.info("Dataset sending to Fakenodo")
-        logger.info(f"Publication type: {ds_meta_data.publication_type.value}")
 
+        ds_meta_data = dataset.ds_meta_data
         metadataJSON = {
             "title": ds_meta_data.title,
             "upload_type": "dataset" if ds_meta_data.publication_type.value == "none" else "publication",
@@ -145,7 +145,7 @@ class FakenodoService(BaseService):
         response = {
             "id": deposition.id,
             "doi": deposition.doi,
-            "metadata": deposition.dep_metadata,
+            "metadata": deposition.meta_data,
             "status": deposition.status,
             "message": "Deposition succesfully get from Fakenodo."
         }

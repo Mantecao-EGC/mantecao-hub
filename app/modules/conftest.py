@@ -31,7 +31,6 @@ def test_client(test_app):
             user_test = User(email='test@example.com', password='test1234', is_developer=True)
             db.session.add(user_test)
             db.session.commit()
-
             print("Rutas registradas:")
             for rule in test_app.url_map.iter_rules():
                 print(rule)
