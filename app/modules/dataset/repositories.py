@@ -71,7 +71,7 @@ class DataSetRepository(BaseRepository):
         super().__init__(DataSet)
         
     def filterFiles(files, config_number=0, core_features=0, **kwargs):
-        not_valid=[]
+        not_valid = []
         if config_number != 0:
             for f in files:
                 if int(dm.use_operation_from_file("PySATConfigurationsNumber", f.get_path())) < int(config_number):
