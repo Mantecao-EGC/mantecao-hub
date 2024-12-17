@@ -20,8 +20,6 @@ from app.modules.dataset.services import (AuthorService, DataSetService,
                                           DSMetaDataService,
                                           DSViewRecordService)
 from app.modules.fakenodo.services import FakenodoService
-from app.modules.zenodo.services import ZenodoService
-from core.configuration.configuration import USE_FAKENODO
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +27,7 @@ logger = logging.getLogger(__name__)
 dataset_service = DataSetService()
 author_service = AuthorService()
 dsmetadata_service = DSMetaDataService()
-nodo_service = FakenodoService() if USE_FAKENODO else ZenodoService()
+fakenodo_service = FakenodoService()
 doi_mapping_service = DOIMappingService()
 ds_view_record_service = DSViewRecordService()
 
@@ -54,34 +52,34 @@ def create_dataset():
             logger.exception(f"Exception while create dataset data in local {exc}")
             return jsonify({"Exception while create dataset data in local: ": str(exc)}), 400
 
-        # send dataset as deposition to Zenodo/Fakenodo
+        # send dataset as deposition to Fakenodo
         data = {}
-        nodo = "Fakenodo" if USE_FAKENODO else "Zenodo"
+        nodo = "Fakenodo"
         try:
-            nodo_response_json = nodo_service.create_new_deposition(dataset)
-            response_data = json.dumps(nodo_response_json)
+            fakenodo_response_json = fakenodo_service.create_new_deposition(dataset)
+            response_data = json.dumps(fakenodo_response_json)
             data = json.loads(response_data)
         except Exception as exc:
             data = {}
-            nodo_response_json = {}
+            fakenodo_response_json = {}
             logger.exception(f"Exception while create dataset data in {nodo} {exc}")
 
-        if data.get("conceptrecid"):
+        if "id" in data:
             deposition_id = data.get("id")
 
-            # update dataset with deposition id in Zenodo/Fakenodo
+            # update dataset with deposition id in Fakenodo
             dataset_service.update_dsmetadata(dataset.ds_meta_data_id, deposition_id=deposition_id)
 
             try:
-                # iterate for each feature model (one feature model = one request to Zenodo/Fakenodo)
+                # iterate for each feature model (one feature model = one request to Fakenodo)
                 for feature_model in dataset.feature_models:
-                    nodo_service.upload_file(dataset, deposition_id, feature_model)
+                    fakenodo_service.upload_file(dataset, deposition_id, feature_model)
 
                 # publish deposition
-                nodo_service.publish_deposition(deposition_id)
+                fakenodo_service.publish_deposition(deposition_id)
 
                 # update DOI
-                deposition_doi = nodo_service.get_doi(deposition_id)
+                deposition_doi = fakenodo_service.get_doi(deposition_id)
                 dataset_service.update_dsmetadata(dataset.ds_meta_data_id, dataset_doi=deposition_doi)
             except Exception as e:
                 msg = f"it has not been possible upload feature models in {nodo} and update the DOI: {e}"
@@ -95,7 +93,7 @@ def create_dataset():
         msg = "Everything works!"
         return jsonify({"message": msg}), 200
 
-    return render_template("dataset/upload_dataset.html", form=form, use_fakenodo=USE_FAKENODO)
+    return render_template("dataset/upload_dataset.html", form=form)
 
 
 @dataset_bp.route("/dataset/list", methods=["GET", "POST"])

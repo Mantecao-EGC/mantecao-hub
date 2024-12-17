@@ -10,17 +10,17 @@ def seed_depositions():
 
         depositions = [
             Deposition(
-                dep_metadata={"title": "Sample Dataset 1", "description": "Description for dataset 1"},
+                meta_data={"title": "Sample Dataset 1", "description": "Description for dataset 1"},
                 status="draft",
                 doi=None
             ),
             Deposition(
-                dep_metadata={"title": "Sample Dataset 2", "description": "Description for dataset 2"},
+                meta_data={"title": "Sample Dataset 2", "description": "Description for dataset 2"},
                 status="published",
                 doi="fakenodo.doi.2"
             ),
             Deposition(
-                dep_metadata={"title": "Sample Dataset 3", "description": "Description for dataset 3"},
+                meta_data={"title": "Sample Dataset 3", "description": "Description for dataset 3"},
                 status="draft",
                 doi="fakenodo.doi.3"
             ),
