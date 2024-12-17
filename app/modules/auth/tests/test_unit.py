@@ -1,5 +1,6 @@
 import pytest  # type: ignore
 from flask import url_for  # type: ignore
+
 from app.modules.auth.services import AuthenticationService
 from app.modules.auth.repositories import UserRepository
 from app.modules.profile.repositories import UserProfileRepository
@@ -11,9 +12,7 @@ def test_client(test_client):
     Extends the test_client fixture to add additional specific data for module testing.
     """
     with test_client.application.app_context():
-        user_test = User(email="testing@example.com", password="test1234", is_developer=False)
-        db.session.add(user_test)
-        db.session.commit()
+
         # Add HERE new elements to the database that you want to exist in the test context.
         # DO NOT FORGET to use db.session.add(<element>) and db.session.commit() to save the data.
         pass
@@ -22,7 +21,7 @@ def test_client(test_client):
 
 def test_login_success(test_client):
     response = test_client.post(
-        "/login", data=dict(email="testing@example.com", password="test1234", is_developer=False), follow_redirects=True
+        "/login", data=dict(email="test@example.com", password="test1234"), follow_redirects=True
     )
 
     assert response.request.path != url_for("auth.login"), "Login was unsuccessful"
@@ -32,8 +31,7 @@ def test_login_success(test_client):
 
 def test_login_unsuccessful_bad_email(test_client):
     response = test_client.post(
-        "/login", data=dict(email="bademail@example.com", password="test1234",
-                            is_developer=False), follow_redirects=True
+        "/login", data=dict(email="bademail@example.com", password="test1234"), follow_redirects=True
     )
 
     assert response.request.path == url_for("auth.login"), "Login was unsuccessful"
@@ -43,8 +41,7 @@ def test_login_unsuccessful_bad_email(test_client):
 
 def test_login_unsuccessful_bad_password(test_client):
     response = test_client.post(
-        "/login", data=dict(email="testing@example.com", password="basspassword", is_developer=False),
-        follow_redirects=True
+        "/login", data=dict(email="test@example.com", password="basspassword"), follow_redirects=True
     )
 
     assert response.request.path == url_for("auth.login"), "Login was unsuccessful"
@@ -54,14 +51,15 @@ def test_login_unsuccessful_bad_password(test_client):
 
 def test_signup_unsuccessful_user_no_name(test_client):
     response = test_client.post(
-        "/signup", data=dict(surname="Foo", email="testing@example.com", password="test1234",
+        "/signup", data=dict(surname="Foo", email="test@example.com", password="test1234",
                              is_developer=False), follow_redirects=True
     )
     assert response.request.path == url_for("auth.show_signup_form"), "Signup was unsuccessful"
     assert b"This field is required" in response.data, response.data
 
+
 def test_signup_user_unsuccessful(test_client):
-    email = "testing@example.com"
+    email = "test@example.com"
     response = test_client.post(
         "/signup", data=dict(name="Test", surname="Foo", email=email, password="test1234",
                              is_developer=False), follow_redirects=True
@@ -129,8 +127,7 @@ def test_service_create_with_profile_fail_no_email(clean_database):
         "name": "Test",
         "surname": "Foo",
         "email": "",
-        "password": "1234",
-        "is_developer": False
+        "password": "1234"
     }
 
     with pytest.raises(ValueError, match="Email is required."):
@@ -145,8 +142,7 @@ def test_service_create_with_profile_fail_no_password(clean_database):
         "name": "Test",
         "surname": "Foo",
         "email": "test@example.com",
-        "password": "",
-        "is_developer": False
+        "password": ""
     }
 
     with pytest.raises(ValueError, match="Password is required."):
@@ -154,4 +150,3 @@ def test_service_create_with_profile_fail_no_password(clean_database):
 
     assert UserRepository().count() == 0
     assert UserProfileRepository().count() == 0
-
