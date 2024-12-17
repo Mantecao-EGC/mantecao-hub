@@ -1,9 +1,9 @@
-from app.modules.auth.services import AuthenticationService
-from app.modules.dataset.models import DataSet
-from flask import render_template, redirect, url_for, request
-from flask_login import login_required, current_user
+from flask import redirect, render_template, request, url_for
+from flask_login import current_user, login_required
 
 from app import db
+from app.modules.auth.services import AuthenticationService
+from app.modules.dataset.models import DataSet
 from app.modules.profile import profile_bp
 from app.modules.profile.forms import UserProfileForm
 from app.modules.profile.services import UserProfileService
@@ -13,7 +13,7 @@ from app.modules.profile.services import UserProfileService
 @login_required
 def edit_profile():
     auth_service = AuthenticationService()
-    profile = auth_service.get_authenticated_user_profile
+    profile = auth_service.get_authenticated_user_profile()
     if not profile:
         return redirect(url_for("public.index"))
 
