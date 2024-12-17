@@ -1,5 +1,5 @@
-import pytest
-from flask import url_for
+import pytest  # type: ignore
+from flask import url_for  # type: ignore
 
 from app.modules.auth.services import AuthenticationService
 from app.modules.auth.repositories import UserRepository
@@ -49,22 +49,13 @@ def test_login_unsuccessful_bad_password(test_client):
     test_client.get("/logout", follow_redirects=True)
 
 
-def test_signup_user_no_name(test_client):
+def test_signup_unsuccessful_user_no_name(test_client):
     response = test_client.post(
         "/signup", data=dict(surname="Foo", email="test@example.com", password="test1234",
                              is_developer=False), follow_redirects=True
     )
     assert response.request.path == url_for("auth.show_signup_form"), "Signup was unsuccessful"
     assert b"This field is required" in response.data, response.data
-
-
-def test_signup_user_no_developer(test_client):
-    response = test_client.post(
-        "/signup", data=dict(surname="Foo", name="Faa", email="test@example.com", password="test1234"
-                             ), follow_redirects=True
-    )
-    assert response.request.path == url_for("auth.show_signup_form"), "Signup was unsuccessful"
-    assert pytest.raises(ValueError, match="Is_developer is required.")
 
 
 def test_signup_user_unsuccessful(test_client):
@@ -87,7 +78,21 @@ def test_signup_user_successful(test_client):
     assert response.request.path == url_for("public.index"), "Signup was unsuccessful"
 
 
-def test_signup_developer_user_successful(test_client):
+def test_signup_succesful_no_developer_user(test_client):
+    response = test_client.post(
+        "/signup",
+        data={
+            "name": "Test",
+            "surname": "Foo",
+            "email": "service_test@example.com",
+            "password": "test1234"
+        },
+        follow_redirects=True,
+    )
+    assert response.request.path == url_for("public.index"), "Signup was successful"
+
+
+def test_signup_successful_developer_user(test_client):
     response = test_client.post(
         "/signup",
         data={
@@ -141,22 +146,6 @@ def test_service_create_with_profile_fail_no_password(clean_database):
     }
 
     with pytest.raises(ValueError, match="Password is required."):
-        AuthenticationService().create_with_profile(**data)
-
-    assert UserRepository().count() == 0
-    assert UserProfileRepository().count() == 0
-
-
-def test_service_create_with_profile_fail_no_developer(clean_database):
-    data = {
-        "name": "Test",
-        "surname": "Foo",
-        "email": "test@example.com",
-        "password": "1234",
-        "is_developer": None
-    }
-
-    with pytest.raises(ValueError, match="Is_developer is required."):
         AuthenticationService().create_with_profile(**data)
 
     assert UserRepository().count() == 0
