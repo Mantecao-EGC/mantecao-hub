@@ -1,3 +1,4 @@
+from sqlalchemy.exc import DataError  # type: ignore
 import pytest  # type: ignore
 from flask import url_for  # type: ignore
 
@@ -165,16 +166,16 @@ def test_service_create_with_profile_fail_no_name(clean_database):
 
 
 def test_service_create_with_profile_fail_name_too_long(clean_database):
-    name_value = "4z8K5uX2pD1rM9tQ3sVfL6oYwIhE7gCkUqJbTz0aWvOxlPjNnF0yHcZpYdR8m2sK"
-    name_value = name_value + name_value + name_value + name_value
+    wrong_value = "4z8K5uX2pD1rM9tQ3sVfL6oYwIhE7gCkUqJbTz0aWvOxlPjNnF"  # A 50-character_string
+    wrong_value = wrong_value + wrong_value + "a"
     data = {
-        "name": name_value,
+        "name": wrong_value,
         "surname": "Foo",
         "email": "test@example.com",
         "password": "1234"
     }
 
-    with pytest.raises(ValueError, match="Name is required."):
+    with pytest.raises(DataError, match="Data too long for column 'name' at row 1"):
         AuthenticationService().create_with_profile(**data)
 
     assert UserRepository().count() == 0
@@ -196,6 +197,23 @@ def test_service_create_with_profile_fail_no_surname(clean_database):
     assert UserProfileRepository().count() == 0
 
 
+def test_service_create_with_profile_fail_surname_too_long(clean_database):
+    wrong_value = "4z8K5uX2pD1rM9tQ3sVfL6oYwIhE7gCkUqJbTz0aWvOxlPjNnF"  # A 50-character_string
+    wrong_value = wrong_value + wrong_value + "a"
+    data = {
+        "name": "Test",
+        "surname": wrong_value,
+        "email": "test@example.com",
+        "password": "1234"
+    }
+
+    with pytest.raises(DataError, match="Data too long for column 'surname' at row 1"):
+        AuthenticationService().create_with_profile(**data)
+
+    assert UserRepository().count() == 0
+    assert UserProfileRepository().count() == 0
+
+
 def test_service_create_with_profile_fail_no_email(clean_database):
     data = {
         "name": "Test",
@@ -205,6 +223,24 @@ def test_service_create_with_profile_fail_no_email(clean_database):
     }
 
     with pytest.raises(ValueError, match="Email is required."):
+        AuthenticationService().create_with_profile(**data)
+
+    assert UserRepository().count() == 0
+    assert UserProfileRepository().count() == 0
+
+
+def test_service_create_with_profile_fail_email_too_long(clean_database):
+    wrong_value = "4z8K5uX2pD1rM9tQ3sVfL6oYwIhE7gCkUqJbTz0aWvOxlPjNnF0yHcZpYdR8m2sK"  # A 64-character_string
+    wrong_end = "4z8K5uX2pD1rM9tQ3sVfL6oYwIhE7gCkUqJbTz0aWvOxlPjNnF0ya@example.com"  # A 65-character_string
+    wrong_value = wrong_value + wrong_value + wrong_value + wrong_end
+    data = {
+        "name": "Test",
+        "surname": "Foo",
+        "email": wrong_value,
+        "password": "1234"
+    }
+
+    with pytest.raises(DataError, match="Data too long for column 'email' at row 1"):
         AuthenticationService().create_with_profile(**data)
 
     assert UserRepository().count() == 0
