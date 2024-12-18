@@ -4,7 +4,12 @@
 
 {% block content %}
 
-<h1 class="h3 mb-3">{{ user_profile.name }}'s Profile</h1>
+<h1 class="h3 mb-3 d-flex align-items-center gap-2">
+    {{ user_profile.name }}'s Profile
+    {% if user.is_developer %}
+    <p class="badge text-bg-info m-0" data-bs-toggle="tooltip" title="Developer Account"><i data-feather="code"></i></p>
+    {% endif %}
+</h1>
 
 <div class="row">
     <div class="col-12 col-md-8 col-lg-6"> 
@@ -17,9 +22,6 @@
                 <p class="card-text h5"><i class="fa fa-user-circle"></i> <strong>Surname:</strong> {{user_profile.surname}}</p>
                 <p class="card-text h5"><i class="fa fa-building"></i> <strong>Affiliation:</strong> {{user_profile.affiliation}}</p>
                 <p class="card-text h5"><i class="fa fa-database"></i> <strong>Uploaded datasets:</strong> {{ total_datasets }} datasets</p>
-                {% if user.is_developer %}
-                <p class="card-text h5"><i class="fa fa-key"></i> <strong><u>Developer Account</u></strong></p>        
-                {% endif %}
             </div>
         </div>
     </div>
@@ -72,4 +74,15 @@
 </div>
 {% endif %}
 
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+    });
+</script>
 {% endblock %}
